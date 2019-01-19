@@ -39,34 +39,6 @@ $array_setting = [
     'branch' => [],
     'learningtasks' => []
 ];
-// Xác định các ngành học
-$array_branchs = [];
-$sql = "SELECT id, title FROM " . NV_CMNG_TABLE . "_branch ORDER BY weight ASC";
-$result = $db->query($sql);
-while ($row = $result->fetch()) {
-    $array_branchs[$row['id']] = $row;
-}
-// Xác định các nhiệm vụ học tập
-$array_learningtasks = [];
-$sql = "SELECT id, title FROM " . NV_CMNG_TABLE . "_learning_tasks ORDER BY weight ASC";
-$result = $db->query($sql);
-while ($row = $result->fetch()) {
-    $array_learningtasks[$row['id']] = $row;
-}
-// Xác định các trường học tại Bỉ
-$array_belgiumschool = [];
-$sql = "SELECT id, title FROM " . NV_CMNG_TABLE . "_belgiumschool ORDER BY weight ASC";
-$result = $db->query($sql);
-while ($row = $result->fetch()) {
-    $array_belgiumschool[$row['id']] = $row;
-}
-// Xác định các loại hình đào tạo
-$array_edutype = [];
-$sql = "SELECT id, title FROM " . NV_CMNG_TABLE . "_edutype ORDER BY weight ASC";
-$result = $db->query($sql);
-while ($row = $result->fetch()) {
-    $array_edutype[$row['id']] = $row;
-}
 
 // Submit form
 if ($nv_Request->isset_request('submit', 'post')) {
@@ -121,8 +93,8 @@ if ($nv_Request->isset_request('submit', 'post')) {
             $where[] = "tb1.regdate<=" . $array_setting['to'];
         }
 
-        $array_setting['branch'] = array_intersect($array_setting['branch'], array_keys($array_branchs));
-        if (!empty($array_setting['branch']) and sizeof($array_setting['branch']) < sizeof($array_branchs)) {
+        $array_setting['branch'] = array_intersect($array_setting['branch'], array_keys($array_branch));
+        if (!empty($array_setting['branch']) and sizeof($array_setting['branch']) < sizeof($array_branch)) {
             $where_or = [];
             foreach ($array_setting['branch'] as $value) {
                 $where_or[] = 'tb2.branch=' . $db->quote($value);
@@ -184,7 +156,7 @@ if ($nv_Request->isset_request('submit', 'post')) {
             $sheet->setCellValue('J' . $line, nv_unhtmlspecialchars($edutype));
 
             // Ngành học
-            $branch = isset($array_branchs[$row['branch']]) ? $array_branchs[$row['branch']]['title'] : '';
+            $branch = isset($array_branch[$row['branch']]) ? $array_branch[$row['branch']]['title'] : '';
             if (preg_match('/^[\-]+$/', $branch)) {
                 $branch = '';
             }
@@ -237,7 +209,7 @@ foreach ($array_group_managers as $group) {
     $xtpl->parse('main.group');
 }
 
-foreach ($array_branchs as $branch) {
+foreach ($array_branch as $branch) {
     $branch['checked'] = in_array($branch['id'], $array_setting['branch']) ? ' checked="checked"' : '';
     $xtpl->assign('BRANCH', $branch);
     $xtpl->parse('main.branch');

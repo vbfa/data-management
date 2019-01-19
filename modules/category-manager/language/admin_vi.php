@@ -40,5 +40,11 @@ $lang_module['learningtasks'] = 'Nhiệm vụ học tập';
 //Lang for function belgiumschool
 $lang_module['belgiumschool'] = 'Trường đã học tại Bỉ';
 
+//Lang for function vnschool
+$lang_module['vnschool'] = 'Trường đã học tại Việt Nam';
+
+//Lang for function concernarea
+$lang_module['concernarea'] = 'Lĩnh vực quan tâm';
+
 //Lang for function edutype
 $lang_module['edutype'] = 'Loại hình đào tạo';

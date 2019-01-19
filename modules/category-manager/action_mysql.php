@@ -18,6 +18,8 @@ $sql_drop_module = array();
 //$sql_drop_module[] = "DROP TABLE IF EXISTS " . $db_config['prefix'] . "_" . $module_data . "_learning_tasks";
 //$sql_drop_module[] = "DROP TABLE IF EXISTS " . $db_config['prefix'] . "_" . $module_data . "_edutype";
 //$sql_drop_module[] = "DROP TABLE IF EXISTS " . $db_config['prefix'] . "_" . $module_data . "_belgiumschool";
+//$sql_drop_module[] = "DROP TABLE IF EXISTS " . $db_config['prefix'] . "_" . $module_data . "_vnschool";
+//$sql_drop_module[] = "DROP TABLE IF EXISTS " . $db_config['prefix'] . "_" . $module_data . "_concernarea";
 
 $sql_create_module = $sql_drop_module;
 
@@ -53,6 +55,26 @@ $sql_create_module[] = "CREATE TABLE IF NOT EXISTS " . $db_config['prefix'] . "_
 
 // Trường đã học tại Bỉ
 $sql_create_module[] = "CREATE TABLE IF NOT EXISTS " . $db_config['prefix'] . "_" . $module_data . "_belgiumschool (
+ id SMALLINT(4) UNSIGNED NOT NULL AUTO_INCREMENT,
+ title VARCHAR(250) NOT NULL DEFAULT '' COMMENT 'Tiêu đề',
+ description TEXT NOT NULL COMMENT 'Mô tả',
+ status TINYINT(1) UNSIGNED NOT NULL DEFAULT '1' COMMENT 'Hiển thị, ẩn',
+ weight SMALLINT(4) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'Thứ tự',
+ PRIMARY KEY (id), UNIQUE (title(190))
+) ENGINE=MyISAM;";
+
+// Trường đã học tại Việt Nam
+$sql_create_module[] = "CREATE TABLE IF NOT EXISTS " . $db_config['prefix'] . "_" . $module_data . "_vnschool (
+ id SMALLINT(4) UNSIGNED NOT NULL AUTO_INCREMENT,
+ title VARCHAR(250) NOT NULL DEFAULT '' COMMENT 'Tiêu đề',
+ description TEXT NOT NULL COMMENT 'Mô tả',
+ status TINYINT(1) UNSIGNED NOT NULL DEFAULT '1' COMMENT 'Hiển thị, ẩn',
+ weight SMALLINT(4) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'Thứ tự',
+ PRIMARY KEY (id), UNIQUE (title(190))
+) ENGINE=MyISAM;";
+
+// Lĩnh vực quan tâm
+$sql_create_module[] = "CREATE TABLE IF NOT EXISTS " . $db_config['prefix'] . "_" . $module_data . "_concernarea (
  id SMALLINT(4) UNSIGNED NOT NULL AUTO_INCREMENT,
  title VARCHAR(250) NOT NULL DEFAULT '' COMMENT 'Tiêu đề',
  description TEXT NOT NULL COMMENT 'Mô tả',

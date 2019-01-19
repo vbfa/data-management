@@ -27,6 +27,8 @@ $xtpl->assign('LINK_BRANCH', NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE 
 $xtpl->assign('LINK_LEARNINGTASKS', NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=learningtasks');
 $xtpl->assign('LINK_BELGIUMSCHOOL', NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=belgiumschool');
 $xtpl->assign('LINK_EDUTYPE', NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=edutype');
+$xtpl->assign('LINK_VNSCHOOL', NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=vnschool');
+$xtpl->assign('LINK_CONCERNAREA', NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=concernarea');
 
 $xtpl->parse('main');
 $contents = $xtpl->text('main');

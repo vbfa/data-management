@@ -14,4 +14,6 @@ if (!defined('NV_ADMIN'))
 $submenu['branch'] = $lang_module['branch'];
 $submenu['learningtasks'] = $lang_module['learningtasks'];
 $submenu['belgiumschool'] = $lang_module['belgiumschool'];
+$submenu['vnschool'] = $lang_module['vnschool'];
 $submenu['edutype'] = $lang_module['edutype'];
+$submenu['concernarea'] = $lang_module['concernarea'];

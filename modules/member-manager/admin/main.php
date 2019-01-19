@@ -8,14 +8,11 @@
  * @Createdate Wed, 21 Nov 2018 02:52:58 GMT
  */
 
-if (!defined('NV_IS_FILE_ADMIN'))
+if (!defined('NV_IS_FILE_ADMIN')) {
     die('Stop!!!');
+}
 
 $page_title = $lang_module['main'];
-
-//------------------------------
-// Viết code xử lý chung vào đây
-//------------------------------
 
 $xtpl = new XTemplate('main.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file);
 $xtpl->assign('LANG', $lang_module);
@@ -40,6 +37,8 @@ if (!empty($group_missing_info) and (defined('NV_IS_SPADMIN') or defined('NV_IS_
     $xtpl->assign('GROUP_LINK_INFO', NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=setgroupcode');
     $xtpl->parse('main.group_no_info');
 }
+
+//
 
 $xtpl->parse('main');
 $contents = $xtpl->text('main');

@@ -31,34 +31,6 @@ foreach ($groups_list as $gid => $gtitle) {
             ];
         }
 }
-// Xác định các ngành học
-$array_branch = [];
-$sql = "SELECT id, title FROM " . NV_CMNG_TABLE . "_branch ORDER BY weight ASC";
-$result = $db->query($sql);
-while ($row = $result->fetch()) {
-    $array_branch[$row['id']] = $row;
-}
-// Xác định các nhiệm vụ học tập
-$array_learningtasks = [];
-$sql = "SELECT id, title FROM " . NV_CMNG_TABLE . "_learning_tasks ORDER BY weight ASC";
-$result = $db->query($sql);
-while ($row = $result->fetch()) {
-    $array_learningtasks[$row['id']] = $row;
-}
-// Xác định các trường học tại Bỉ
-$array_belgiumschool = [];
-$sql = "SELECT id, title FROM " . NV_CMNG_TABLE . "_belgiumschool ORDER BY weight ASC";
-$result = $db->query($sql);
-while ($row = $result->fetch()) {
-    $array_belgiumschool[$row['id']] = $row;
-}
-// Xác định các loại hình đào tạo
-$array_edutype = [];
-$sql = "SELECT id, title FROM " . NV_CMNG_TABLE . "_edutype ORDER BY weight ASC";
-$result = $db->query($sql);
-while ($row = $result->fetch()) {
-    $array_edutype[$row['id']] = $row;
-}
 
 $array_fields = [
     'stt' => $lang_module['report_field_stt'],
