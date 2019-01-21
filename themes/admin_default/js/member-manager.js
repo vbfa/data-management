@@ -96,4 +96,11 @@ $(document).ready(function() {
         e.preventDefault();
         $('#reportInputForm').toggleClass('hidden');
     });
+
+    // Xem chi tiết hội viên
+    $('[data-toggle="tipUserByID"]').on('click', function(e) {
+        e.preventDefault();
+        var target = $($(this).data('target'));
+        modalShow(target.attr('title'), target.html());
+    });
 });

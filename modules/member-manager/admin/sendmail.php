@@ -1,10 +1,10 @@
 <?php
 
 /**
- * @Project NUKEVIET 4.x
+ * @Project VBFA MEMBER-MANAGER
  * @Author VINADES.,JSC <contact@vinades.vn>
  * @Copyright (C) 2018 VINADES.,JSC. All rights reserved
- * @License: Not free read more http://nukeviet.vn/vi/store/modules/nvtools/
+ * @License: GNU/GPL version 2 or any later version
  * @Createdate Wed, 21 Nov 2018 02:52:58 GMT
  */
 

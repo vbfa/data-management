@@ -1,12 +1,11 @@
 <?php
 
 /**
- * @Project NUKEVIET 4.x
- * @Author VINADES.,JSC (contact@vinades.vn)
- * @Copyright (C) 2014 VINADES.,JSC. All rights reserved
- * @Language Tiếng Việt
- * @License CC BY-SA (http://creativecommons.org/licenses/by-sa/4.0/)
- * @Createdate Mar 04, 2010, 03:22:00 PM
+ * @Project VBFA MEMBER-MANAGER
+ * @Author VINADES.,JSC <contact@vinades.vn>
+ * @Copyright (C) 2018 VINADES.,JSC. All rights reserved
+ * @License: GNU/GPL version 2 or any later version
+ * @Createdate Wed, 21 Nov 2018 02:52:58 GMT
  */
 
 if (!defined('NV_MAINFILE')) {
@@ -24,3 +23,9 @@ $lang_module['search_all_branch'] = 'Tất cả ngành học';
 $lang_module['search_all_group'] = 'Tất cả chi hội';
 $lang_module['search_other'] = 'Khác';
 $lang_module['contactinfo'] = 'Thông tin liên hệ';
+
+$lang_module['f_name'] = 'Họ và tên';
+$lang_module['f_branch'] = 'Ngành học';
+$lang_module['f_studytime'] = 'Thời gian học';
+$lang_module['f_workplace'] = 'Cơ quan đang công tác';
+$lang_module['f_group'] = 'Chi hội';

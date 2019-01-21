@@ -1,10 +1,10 @@
 <?php
 
 /**
- * @Project NUKEVIET 4.x
+ * @Project VBFA MEMBER-MANAGER
  * @Author VINADES.,JSC <contact@vinades.vn>
  * @Copyright (C) 2018 VINADES.,JSC. All rights reserved
- * @License: Not free read more http://nukeviet.vn/vi/store/modules/nvtools/
+ * @License: GNU/GPL version 2 or any later version
  * @Createdate Wed, 21 Nov 2018 02:52:58 GMT
  */
 
@@ -79,6 +79,18 @@ while ($row = $result->fetch()) {
     }
     $array_alias_belgiumschool[$alias] = $row['id'];
 }
+// Xác định các trường đã học tại Việt Nam và chuyển sang dạng alias => id
+$array_alias_vnschool = [];
+$sql = "SELECT id, title FROM " . NV_CMNG_TABLE . "_vnschool";
+$result = $db->query($sql);
+while ($row = $result->fetch()) {
+    if (preg_match('/^[\-]+$/', $row['title'])) {
+        $alias = "";
+    } else {
+        $alias = nv_strtolower(change_alias($row['title']));
+    }
+    $array_alias_vnschool[$alias] = $row['id'];
+}
 // Xác định các loại hình đào tạo và chuyển sang dạng alias => id
 $array_alias_edutype = [];
 $sql = "SELECT id, title FROM " . NV_CMNG_TABLE . "_edutype";
@@ -90,6 +102,18 @@ while ($row = $result->fetch()) {
         $alias = nv_strtolower(change_alias($row['title']));
     }
     $array_alias_edutype[$alias] = $row['id'];
+}
+// Xác định các lĩnh vực quan tâm và chuyển sang dạng alias => id
+$array_alias_concernarea = [];
+$sql = "SELECT id, title FROM " . NV_CMNG_TABLE . "_concernarea";
+$result = $db->query($sql);
+while ($row = $result->fetch()) {
+    if (preg_match('/^[\-]+$/', $row['title'])) {
+        $alias = "";
+    } else {
+        $alias = nv_strtolower(change_alias($row['title']));
+    }
+    $array_alias_concernarea[$alias] = $row['id'];
 }
 
 $xtpl = new XTemplate('importexcel.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file);
@@ -195,24 +219,29 @@ if ($nv_Request->isset_request('submit', 'post')) {
             // Trường đã học tại Bỉ
             $cell = $sheet->getCellByColumnAndRow(7, $row);
             $array_data_read[$stt]['belgiumschool'] = trim($cell->getCalculatedValue());
-            // Khóa học
+            // Trường đã học tại Việt Nam
             $cell = $sheet->getCellByColumnAndRow(8, $row);
+            $array_data_read[$stt]['vnschool'] = trim($cell->getCalculatedValue());
+            // Khóa học
+            $cell = $sheet->getCellByColumnAndRow(9, $row);
             $array_data_read[$stt]['course'] = trim($cell->getCalculatedValue());
             // Thời gian học XXXX - YYYY
-            $cell = $sheet->getCellByColumnAndRow(9, $row);
+            $cell = $sheet->getCellByColumnAndRow(10, $row);
             $array_data_read[$stt]['studytime'] = trim($cell->getCalculatedValue());
             $array_data_read[$stt]['studytime_from'] = 0;
             $array_data_read[$stt]['studytime_to'] = 0;
             // Loại hình đào tạo
-            $cell = $sheet->getCellByColumnAndRow(10, $row);
+            $cell = $sheet->getCellByColumnAndRow(11, $row);
             $array_data_read[$stt]['edutype'] = trim($cell->getCalculatedValue());
             // Ngành học
-            $cell = $sheet->getCellByColumnAndRow(11, $row);
-            $array_data_read[$stt]['branch'] = trim($cell->getCalculatedValue());
-            // Ghi chú
             $cell = $sheet->getCellByColumnAndRow(12, $row);
+            $array_data_read[$stt]['branch'] = trim($cell->getCalculatedValue());
+            // Lĩnh vực quan tâm
+            $cell = $sheet->getCellByColumnAndRow(13, $row);
+            $array_data_read[$stt]['concernarea'] = trim($cell->getCalculatedValue());
+            // Ghi chú
+            $cell = $sheet->getCellByColumnAndRow(14, $row);
             $array_data_read[$stt]['othernote'] = trim($cell->getCalculatedValue());
-
 
             // Tới dòng trống là kết thúc
             $filter_check = array_filter($array_data_read[$stt]);
@@ -357,7 +386,7 @@ if ($nv_Request->isset_request('submit', 'post')) {
                 if (isset($array_alias_belgiumschool[$belgiumschool_alias])) {
                     $row['belgiumschool_id'] = $array_alias_belgiumschool[$belgiumschool_alias];
                 } elseif (!empty($belgiumschool_alias)) {
-                    // Thêm mới ngành học vào CSDL
+                    // Thêm mới trường đã học tại Bỉ vào CSDL
                     $weight = $db->query("SELECT MAX(weight) FROM " . NV_CMNG_TABLE . "_belgiumschool")->fetchColumn();
                     $weight = $weight + 1;
                     $sql = "INSERT INTO " . NV_CMNG_TABLE . "_belgiumschool (title, description, status, weight) VALUES (" . $db->quote($row['belgiumschool']) . ", '', 1, " . $weight . ")";
@@ -368,13 +397,30 @@ if ($nv_Request->isset_request('submit', 'post')) {
                     }
                 }
 
+                // Xác định trường đã học tại Việt Nam hiện có, thêm trường chưa có
+                $row['vnschool_id'] = '';
+                $vnschool_alias = empty($row['vnschool']) ? '' : nv_strtolower(change_alias($row['vnschool']));
+                if (isset($array_alias_vnschool[$vnschool_alias])) {
+                    $row['vnschool_id'] = $array_alias_vnschool[$vnschool_alias];
+                } elseif (!empty($vnschool_alias)) {
+                    // Thêm mới trường đã học tại Việt Nam vào CSDL
+                    $weight = $db->query("SELECT MAX(weight) FROM " . NV_CMNG_TABLE . "_vnschool")->fetchColumn();
+                    $weight = $weight + 1;
+                    $sql = "INSERT INTO " . NV_CMNG_TABLE . "_vnschool (title, description, status, weight) VALUES (" . $db->quote($row['vnschool']) . ", '', 1, " . $weight . ")";
+                    $vnschool_id = $db->insert_id($sql, 'id');
+                    if ($vnschool_id) {
+                        $row['vnschool_id'] = $vnschool_id;
+                        $array_alias_vnschool[$vnschool_alias] = $vnschool_id;
+                    }
+                }
+
                 // Xác định loại hình đào tạo hiện có, thêm loại hình chưa có
                 $row['edutype_id'] = '';
                 $edutype_alias = empty($row['edutype']) ? '' : nv_strtolower(change_alias($row['edutype']));
                 if (isset($array_alias_edutype[$edutype_alias])) {
                     $row['edutype_id'] = $array_alias_edutype[$edutype_alias];
                 } elseif (!empty($edutype_alias)) {
-                    // Thêm mới ngành học vào CSDL
+                    // Thêm mới loại hình đào tạo vào CSDL
                     $weight = $db->query("SELECT MAX(weight) FROM " . NV_CMNG_TABLE . "_edutype")->fetchColumn();
                     $weight = $weight + 1;
                     $sql = "INSERT INTO " . NV_CMNG_TABLE . "_edutype (title, description, status, weight) VALUES (" . $db->quote($row['edutype']) . ", '', 1, " . $weight . ")";
@@ -382,6 +428,23 @@ if ($nv_Request->isset_request('submit', 'post')) {
                     if ($edutype_id) {
                         $row['edutype_id'] = $edutype_id;
                         $array_alias_edutype[$edutype_alias] = $edutype_id;
+                    }
+                }
+
+                // Xác định lĩnh vực quan tâm hiện có, thêm loại hình chưa có
+                $row['concernarea_id'] = '';
+                $concernarea_alias = empty($row['concernarea']) ? '' : nv_strtolower(change_alias($row['concernarea']));
+                if (isset($array_alias_concernarea[$concernarea_alias])) {
+                    $row['concernarea_id'] = $array_alias_concernarea[$concernarea_alias];
+                } elseif (!empty($concernarea_alias)) {
+                    // Thêm mới lĩnh vực quan tâm vào CSDL
+                    $weight = $db->query("SELECT MAX(weight) FROM " . NV_CMNG_TABLE . "_concernarea")->fetchColumn();
+                    $weight = $weight + 1;
+                    $sql = "INSERT INTO " . NV_CMNG_TABLE . "_concernarea (title, description, status, weight) VALUES (" . $db->quote($row['concernarea']) . ", '', 1, " . $weight . ")";
+                    $concernarea_id = $db->insert_id($sql, 'id');
+                    if ($concernarea_id) {
+                        $row['concernarea_id'] = $concernarea_id;
+                        $array_alias_concernarea[$concernarea_alias] = $concernarea_id;
                     }
                 }
 
@@ -410,10 +473,12 @@ if ($nv_Request->isset_request('submit', 'post')) {
                             workplace=" . $db->quote($row['workplace']) . ",
                             phone=" . $db->quote($row['phone']) . ",
                             belgiumschool=" . $db->quote($row['belgiumschool_id']) . ",
+                            vnschool=" . $db->quote($row['vnschool_id']) . ",
                             course=" . $db->quote($row['course']) . ",
                             studytime_from=" . $row['studytime_from'] . ",
                             studytime_to=" . $row['studytime_to'] . ",
                             edutype=" . $db->quote($row['edutype_id']) . ",
+                            concernarea=" . $db->quote($row['concernarea_id']) . ",
                             othernote=" . $db->quote($row['othernote']) . ",
                             branch=" . $db->quote($row['branch_id']) . "
                         WHERE userid=" . $row['userid'];
@@ -475,13 +540,13 @@ if ($nv_Request->isset_request('submit', 'post')) {
                     if ($userid) {
                         // Thêm vào bảng info
                         $sql = "INSERT INTO " . NV_USERS_GLOBALTABLE . "_info (
-                            userid, workplace, phone, belgiumschool, course, studytime_from, studytime_to, edutype, othernote,
-                            address, fb_twitter, contactsocial, branch, learningtasks
+                            userid, workplace, phone, belgiumschool, vnschool, course, studytime_from, studytime_to, edutype, othernote,
+                            address, fb_twitter, contactsocial, branch, learningtasks, concernarea, contactinfo
                         ) VALUES (
-                            " . $userid . ", " . $db->quote($row['workplace']) . ", " . $db->quote($row['phone']) . ", " . $db->quote($row['belgiumschool_id']) . ",
+                            " . $userid . ", " . $db->quote($row['workplace']) . ", " . $db->quote($row['phone']) . ", " . $db->quote($row['belgiumschool_id']) . ", " . $db->quote($row['vnschool_id']) . ",
                             " . $db->quote($row['course']) . ", " . $row['studytime_from'] . ", " . $row['studytime_to'] . ",
                             " . $db->quote($row['edutype_id']) . ", " . $db->quote($row['othernote']) . ", '', '', '',
-                            " . $db->quote($row['branch_id']) . ", ''
+                            " . $db->quote($row['branch_id']) . ", '', " . $db->quote($row['concernarea_id']) . ", ''
                         )";
                         $db->query($sql);
 

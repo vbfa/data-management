@@ -1,11 +1,11 @@
 <?php
 
 /**
- * @Project NUKEVIET 4.x
- * @Author VINADES <contact@vinades.vn>
- * @Copyright (C) 2014 VINADES. All rights reserved
- * @License GNU/GPL version 2 or any later version
- * @Createdate Apr 20, 2010 10:47:41 AM
+ * @Project VBFA MEMBER-MANAGER
+ * @Author VINADES.,JSC <contact@vinades.vn>
+ * @Copyright (C) 2018 VINADES.,JSC. All rights reserved
+ * @License: GNU/GPL version 2 or any later version
+ * @Createdate Wed, 21 Nov 2018 02:52:58 GMT
  */
 
 if (!defined('NV_IS_MOD_MEMBERS')) {
@@ -63,6 +63,7 @@ if (!empty($where)) {
 
 $array = [];
 $num_items = $db->query($db->sql())->fetchColumn();
+$db->order('tb1.userid DESC');
 $db->select('tb1.first_name, tb1.first_name, tb1.last_name, tb1.birthday, tb1.email, tb1.group_id, tb1.in_groups, tb2.*')->limit($per_page)->offset(($page - 1) * $per_page);
 $result = $db->query($db->sql());
 $sttStart = ($page - 1) * $per_page;

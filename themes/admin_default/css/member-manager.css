@@ -85,3 +85,13 @@
     line-height: 20px;
     text-align: center;
 }
+
+@media (min-width: 768px) {
+    .itemDetailUser .dl-horizontal dd {
+        margin-left: 220px;
+    }
+
+    .itemDetailUser .dl-horizontal dt {
+        width: 200px;
+    }
+}

@@ -1,15 +1,16 @@
 <?php
 
 /**
- * @Project NUKEVIET 4.x
+ * @Project VBFA MEMBER-MANAGER
  * @Author VINADES.,JSC <contact@vinades.vn>
  * @Copyright (C) 2018 VINADES.,JSC. All rights reserved
- * @License: Not free read more http://nukeviet.vn/vi/store/modules/nvtools/
+ * @License: GNU/GPL version 2 or any later version
  * @Createdate Wed, 21 Nov 2018 02:52:58 GMT
  */
 
-if (!defined('NV_IS_FILE_ADMIN'))
+if (!defined('NV_IS_FILE_ADMIN')) {
     die('Stop!!!');
+}
 
 $page_title = $lang_module['report'];
 // Kiểm tra thư viện Excel
@@ -40,10 +41,12 @@ $array_fields = [
     'email' => $lang_module['report_field_email'],
     'phone' => $lang_module['report_field_phone'],
     'belgiumschool' => $lang_module['report_field_belgiumschool'],
+    'vnschool' => $lang_module['report_field_vnschool'],
     'course' => $lang_module['report_field_course'],
     'studytime' => $lang_module['report_field_studytime'],
     'edutype' => $lang_module['report_field_edutype'],
     'branch' => $lang_module['report_field_branch'],
+    'concernarea' => $lang_module['report_field_concernarea'],
     'othernote' => $lang_module['report_field_othernote']
 ];
 $request = [
@@ -195,6 +198,12 @@ if ($is_submit) {
                                 $belgiumschool = '';
                             }
                             $cellValue = $belgiumschool;
+                        } elseif ($key == 'vnschool') {
+                            $vnschool = isset($array_vnschool[$row['vnschool']]) ? $array_vnschool[$row['vnschool']]['title'] : '';
+                            if (preg_match('/^[\-]+$/', $vnschool)) {
+                                $vnschool = '';
+                            }
+                            $cellValue = $vnschool;
                         } elseif ($key == 'studytime') {
                             $studytime = [];
                             if (!empty($row['studytime_from'])) {
@@ -216,6 +225,12 @@ if ($is_submit) {
                                 $branch = '';
                             }
                             $cellValue = $branch;
+                        } elseif ($key == 'concernarea') {
+                            $concernarea = isset($array_concernarea[$row['concernarea']]) ? $array_concernarea[$row['concernarea']]['title'] : '';
+                            if (preg_match('/^[\-]+$/', $concernarea)) {
+                                $concernarea = '';
+                            }
+                            $cellValue = $concernarea;
                         }
 
                         $sheet->setCellValue($colString . $line, $cellValue);

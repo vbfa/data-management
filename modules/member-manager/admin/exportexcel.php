@@ -1,10 +1,10 @@
 <?php
 
 /**
- * @Project NUKEVIET 4.x
+ * @Project VBFA MEMBER-MANAGER
  * @Author VINADES.,JSC <contact@vinades.vn>
  * @Copyright (C) 2018 VINADES.,JSC. All rights reserved
- * @License: Not free read more http://nukeviet.vn/vi/store/modules/nvtools/
+ * @License: GNU/GPL version 2 or any later version
  * @Createdate Wed, 21 Nov 2018 02:52:58 GMT
  */
 
@@ -136,7 +136,15 @@ if ($nv_Request->isset_request('submit', 'post')) {
             }
             $sheet->setCellValue('G' . $line, nv_unhtmlspecialchars($belgiumschool));
 
-            $sheet->setCellValue('H' . $line, nv_unhtmlspecialchars($row['course']));
+            // Trường đã học tại Việt Nam
+            $vnschool = isset($array_vnschool[$row['vnschool']]) ? $array_vnschool[$row['vnschool']]['title'] : '';
+            if (preg_match('/^[\-]+$/', $vnschool)) {
+                $vnschool = '';
+            }
+            $sheet->setCellValue('H' . $line, nv_unhtmlspecialchars($vnschool));
+
+            // Khóa
+            $sheet->setCellValue('I' . $line, nv_unhtmlspecialchars($row['course']));
 
             // Thời gian học XXXX - YYYY
             $studytime = [];
@@ -146,23 +154,30 @@ if ($nv_Request->isset_request('submit', 'post')) {
             if (!empty($row['studytime_to'])) {
                 $studytime[] = $row['studytime_to'];
             }
-            $sheet->setCellValue('I' . $line, nv_unhtmlspecialchars(implode(' - ', $studytime)));
+            $sheet->setCellValue('J' . $line, nv_unhtmlspecialchars(implode(' - ', $studytime)));
 
             // Loại hình đào tạo
             $edutype = isset($array_edutype[$row['edutype']]) ? $array_edutype[$row['edutype']]['title'] : '';
             if (preg_match('/^[\-]+$/', $edutype)) {
                 $edutype = '';
             }
-            $sheet->setCellValue('J' . $line, nv_unhtmlspecialchars($edutype));
+            $sheet->setCellValue('K' . $line, nv_unhtmlspecialchars($edutype));
 
             // Ngành học
             $branch = isset($array_branch[$row['branch']]) ? $array_branch[$row['branch']]['title'] : '';
             if (preg_match('/^[\-]+$/', $branch)) {
                 $branch = '';
             }
-            $sheet->setCellValue('K' . $line, nv_unhtmlspecialchars($branch));
+            $sheet->setCellValue('L' . $line, nv_unhtmlspecialchars($branch));
 
-            $sheet->setCellValue('L' . $line, nv_unhtmlspecialchars($row['othernote']));
+            // Lĩnh Vực Quan Tâm
+            $concernarea = isset($array_concernarea[$row['concernarea']]) ? $array_concernarea[$row['concernarea']]['title'] : '';
+            if (preg_match('/^[\-]+$/', $concernarea)) {
+                $concernarea = '';
+            }
+            $sheet->setCellValue('M' . $line, nv_unhtmlspecialchars($concernarea));
+
+            $sheet->setCellValue('N' . $line, nv_unhtmlspecialchars($row['othernote']));
         }
     }
 
@@ -175,7 +190,7 @@ if ($nv_Request->isset_request('submit', 'post')) {
             ],
         ],
     ];
-    $sheet->getStyle('A1:L' . $line)->applyFromArray($styleArray);
+    $sheet->getStyle('A1:N' . $line)->applyFromArray($styleArray);
 
     // Ghi ra file
     $objWriter = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');

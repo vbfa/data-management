@@ -1,11 +1,11 @@
 <?php
 
 /**
- * @Project NUKEVIET 4.x
+ * @Project VBFA MEMBER-MANAGER
  * @Author VINADES.,JSC <contact@vinades.vn>
  * @Copyright (C) 2018 VINADES.,JSC. All rights reserved
- * @License GNU/GPL version 2 or any later version
- * @Createdate Wed, 21 Nov 2018 02:16:35 GMT
+ * @License: GNU/GPL version 2 or any later version
+ * @Createdate Wed, 21 Nov 2018 02:52:58 GMT
  */
 
 if (!defined('NV_IS_FILE_ADMIN'))
@@ -62,7 +62,7 @@ if ($nv_Request->isset_request('delete_id', 'get') and $nv_Request->isset_reques
         $sql = 'SELECT weight FROM ' . $db_config['prefix'] . '_' . $module_data . '_branch WHERE id =' . $db->quote($id);
         $result = $db->query($sql);
         list($weight) = $result->fetch(3);
-        
+
         $db->query('DELETE FROM ' . $db_config['prefix'] . '_' . $module_data . '_branch  WHERE id = ' . $db->quote($id));
         if ($weight > 0)         {
             $sql = 'SELECT id, weight FROM ' . $db_config['prefix'] . '_' . $module_data . '_branch WHERE weight >' . $weight;

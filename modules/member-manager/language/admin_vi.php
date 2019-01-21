@@ -1,10 +1,10 @@
 <?php
 
 /**
- * @Project NUKEVIET 4.x
+ * @Project VBFA MEMBER-MANAGER
  * @Author VINADES.,JSC <contact@vinades.vn>
  * @Copyright (C) 2018 VINADES.,JSC. All rights reserved
- * @License: Not free read more http://nukeviet.vn/vi/store/modules/nvtools/
+ * @License: GNU/GPL version 2 or any later version
  * @Createdate Wed, 21 Nov 2018 02:52:58 GMT
  */
 
@@ -23,9 +23,17 @@ $lang_module['to'] = 'đến';
 $lang_module['status'] = 'Hoạt động';
 $lang_module['func'] = 'Chức năng';
 $lang_module['back'] = 'Trở về trang trước';
+$lang_module['viewmore'] = 'Chi tiết';
+$lang_module['viewdetailuser'] = 'Thông tin chi tiết hội viên';
 
-$lang_module['main'] = 'Trang chính';
-$lang_module['main_have_noginfo'] = 'Các chi hội <strong>%s</strong> chưa được thiết lập mã chi hội, chưa thể nhập hội viên vào đó. Mời nhấp vào đây để thiết lập';
+$lang_module['search_other'] = 'Khác';
+$lang_module['search_all_branch'] = 'Tất cả ngành học';
+$lang_module['search_all_group'] = 'Tất cả chi hội';
+$lang_module['search_all_edutype'] = 'Tất cả loại hình đào tạo';
+$lang_module['search_all_concernarea'] = 'Tất cả lĩnh vực quan tâm';
+$lang_module['search_adv'] = 'Nâng cao';
+$lang_module['search_from'] = 'Từ';
+$lang_module['search_to'] = 'Đến';
 
 $lang_module['permissions_no_admin'] = 'Chưa có tài khoản quản trị module nào được cấp phép';
 $lang_module['permissions_help'] = 'Mời check vào ô tương ứng tại các nhóm (chi hội) để cấp quyền quản lý chi hội đó cho người điều hành';
@@ -107,12 +115,19 @@ $lang_module['report_field_workplace'] = 'Cơ quan làm việc hiện tại';
 $lang_module['report_field_email'] = 'Email';
 $lang_module['report_field_phone'] = 'Điện thoại';
 $lang_module['report_field_belgiumschool'] = 'Trường đã học tại Bỉ';
+$lang_module['report_field_vnschool'] = 'Trường đã học tại Việt Nam';
 $lang_module['report_field_course'] = 'Khóa';
 $lang_module['report_field_studytime'] = 'Thời gian học';
 $lang_module['report_field_studytime1'] = 'Thời gian học từ';
 $lang_module['report_field_edutype'] = 'Loại hình đào tạo';
 $lang_module['report_field_branch'] = 'Ngành học';
+$lang_module['report_field_concernarea'] = 'Lĩnh vực quan tâm';
+$lang_module['report_field_contactinfo'] = 'Thông tin liên hệ';
 $lang_module['report_field_othernote'] = 'Ghi chú';
 $lang_module['report_error_field'] = 'Lỗi: Vui lòng chọn ít nhất một trường dữ liệu để hiển thị hoặc xuất ra excel';
 $lang_module['report_error_group_id'] = 'Lỗi: Vui lòng chọn ít nhất một chi hội để hiển thị hoặc xuất ra excel';
 $lang_module['report_showhide'] = 'Hiển thị/Ẩn các điều kiện';
+
+$lang_module['main'] = 'Danh sách hội viên';
+$lang_module['main_have_noginfo'] = 'Các chi hội <strong>%s</strong> chưa được thiết lập mã chi hội, chưa thể nhập hội viên vào đó. Mời nhấp vào đây để thiết lập';
+$lang_module['main_no_group'] = 'Bạn chưa được cấp quyền quản lý các chi hội nào do đó không thể xem danh sách hội viên tại đây!';

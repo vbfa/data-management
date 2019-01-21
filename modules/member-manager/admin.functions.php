@@ -1,10 +1,10 @@
 <?php
 
 /**
- * @Project NUKEVIET 4.x
+ * @Project VBFA MEMBER-MANAGER
  * @Author VINADES.,JSC <contact@vinades.vn>
  * @Copyright (C) 2018 VINADES.,JSC. All rights reserved
- * @License: Not free read more http://nukeviet.vn/vi/store/modules/nvtools/
+ * @License: GNU/GPL version 2 or any later version
  * @Createdate Wed, 21 Nov 2018 02:52:58 GMT
  */
 
@@ -45,7 +45,16 @@ $array_learningtasks = $nv_Cache->db($sql, 'id', NV_CMNG_MODULE);
 $sql = "SELECT id, title FROM " . NV_CMNG_TABLE . "_belgiumschool ORDER BY weight ASC";
 $array_belgiumschool = $nv_Cache->db($sql, 'id', NV_CMNG_MODULE);
 
+// Xác định các trường học tại Việt Nam
+$sql = "SELECT id, title FROM " . NV_CMNG_TABLE . "_vnschool ORDER BY weight ASC";
+$array_vnschool = $nv_Cache->db($sql, 'id', NV_CMNG_MODULE);
+
 // Xác định các loại hình đào tạo
 $array_edutype = [];
 $sql = "SELECT id, title FROM " . NV_CMNG_TABLE . "_edutype ORDER BY weight ASC";
 $array_edutype = $nv_Cache->db($sql, 'id', NV_CMNG_MODULE);
+
+// Xác định các Lĩnh Vực quan tâm
+$array_concernarea = [];
+$sql = "SELECT id, title FROM " . NV_CMNG_TABLE . "_concernarea ORDER BY weight ASC";
+$array_concernarea = $nv_Cache->db($sql, 'id', NV_CMNG_MODULE);
