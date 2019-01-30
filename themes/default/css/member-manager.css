@@ -1,0 +1,19 @@
+.panel-edit-member {
+    border: 1px #ddd solid;
+    border-radius: 2px;
+}
+
+.panel-edit-member .panel-body {
+    padding-left: 15px;
+}
+
+.form-text {
+    display: block;
+    margin-top: 5px;
+    font-style: italic;
+    font-size: 12px;
+}
+
+.mxw150 {
+    max-width: 150px!important;
+}

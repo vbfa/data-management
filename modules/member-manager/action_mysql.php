@@ -34,6 +34,7 @@ if ($is_auto) {
 //$sql_drop_module[] = "DROP TABLE IF EXISTS " . $db_config['prefix'] . "_" . $module_data . "_user_addition";
 //$sql_drop_module[] = "DROP TABLE IF EXISTS " . $db_config['prefix'] . "_" . $module_data . "_emails";
 //$sql_drop_module[] = "DROP TABLE IF EXISTS " . $db_config['prefix'] . "_" . $module_data . "_emails_status";
+//$sql_drop_module[] = "DROP TABLE IF EXISTS " . $db_config['prefix'] . "_" . $module_data . "_queue";
 
 $sql_create_module = $sql_drop_module;
 $sql_create_module[] = "CREATE TABLE IF NOT EXISTS " . $db_config['prefix'] . "_" . $module_data . "_permissions (
@@ -80,7 +81,7 @@ $sql_create_module[] = "CREATE TABLE IF NOT EXISTS " . $db_config['prefix'] . "_
 $sql_create_module[] = "CREATE TABLE IF NOT EXISTS " . $db_config['prefix'] . "_" . $module_data . "_emails_status (
  id int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
  user_id mediumint(8) unsigned NOT NULL COMMENT 'ID hội viên nhận',
- email varchar(250) NULL COMMENT 'Email sẽ gửi đi',
+ email varchar(250) NOT NULL COMMENT 'Email sẽ gửi đi',
  email_id int(11) unsigned NOT NULL COMMENT 'ID của email trong bảng email',
  sentmail int(11) NOT NULL DEFAULT '0' COMMENT 'Thời gian gửi mail, nếu 0 thì là chưa gửi',
  isbusy tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT 'Đang bận gửi',
@@ -88,6 +89,35 @@ $sql_create_module[] = "CREATE TABLE IF NOT EXISTS " . $db_config['prefix'] . "_
  KEY user_id (user_id),
  KEY email_id (email_id),
  KEY isbusy (isbusy)
+) ENGINE=InnoDB;";
+
+$sql_create_module[] = "CREATE TABLE IF NOT EXISTS " . $db_config['prefix'] . "_" . $module_data . "_queue (
+ user_id mediumint(8) unsigned NOT NULL COMMENT 'ID hội viên sửa',
+ checknum varchar(250) NOT NULL COMMENT 'Mã kiểm tra',
+ workplace varchar(250) NOT NULL DEFAULT '' COMMENT 'Cơ quan làm việc hiện tại',
+ phone varchar(250) NOT NULL DEFAULT '' COMMENT 'Điện thoại',
+ belgiumschool smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT 'Trường đã học tại Bỉ',
+ vnschool smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT 'Trường đã học tại Việt Nam',
+ course varchar(250) NOT NULL DEFAULT '' COMMENT 'Khóa',
+ studytime_from smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT 'Thời gian bắt đầu học',
+ studytime_to smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT 'Thời gian kết thúc học',
+ learningtasks smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT 'Nhiệm vụ học tập',
+ othernote text NOT NULL COMMENT 'Ghi chú',
+ edutype smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT 'Loại hình đào tạo',
+ address varchar(250) NOT NULL DEFAULT '' COMMENT 'Địa chỉ liên hệ',
+ fb_twitter varchar(250) NOT NULL DEFAULT '' COMMENT 'FB/Twitter',
+ contactsocial varchar(250) NOT NULL DEFAULT '' COMMENT 'Zalo/Messenger/Viber',
+ branch smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT 'Ngành học',
+ concernarea smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT 'Lĩnh vực quan tâm',
+ contactinfo text NOT NULL COMMENT 'Thông tin liên hệ',
+ editreason text NOT NULL COMMENT 'Lý do thay đổi',
+ lastupdate int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Lần chỉnh sửa cuối',
+ status tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '0: Chưa xác nhận, 1: Đã xác nhận',
+ verificationtime int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Thời gian xác nhận email',
+ PRIMARY KEY (user_id),
+ KEY checknum (checknum),
+ KEY status (status),
+ KEY verificationtime (verificationtime)
 ) ENGINE=InnoDB;";
 
 // Xác định các trường dữ liệu theo ngôn ngữ trong bảng cron và thêm cron gửi email

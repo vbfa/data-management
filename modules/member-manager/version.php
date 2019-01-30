@@ -13,7 +13,7 @@ if (!defined('NV_MAINFILE'))
 
 $module_version = array(
     'name' => 'Member-manager',
-    'modfuncs' => '',
+    'modfuncs' => 'main',
     'change_alias' => '',
     'submenu' => '',
     'is_sysmod' => 0,
