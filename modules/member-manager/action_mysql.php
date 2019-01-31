@@ -94,6 +94,10 @@ $sql_create_module[] = "CREATE TABLE IF NOT EXISTS " . $db_config['prefix'] . "_
 $sql_create_module[] = "CREATE TABLE IF NOT EXISTS " . $db_config['prefix'] . "_" . $module_data . "_queue (
  user_id mediumint(8) unsigned NOT NULL COMMENT 'ID hội viên sửa',
  checknum varchar(250) NOT NULL COMMENT 'Mã kiểm tra',
+ first_name varchar(100) NOT NULL DEFAULT '',
+ last_name varchar(100) NOT NULL DEFAULT '',
+ birthday int(11) unsigned NOT NULL DEFAULT '0',
+ email varchar(100) NOT NULL DEFAULT '' COMMENT 'Thay đổi email mới',
  workplace varchar(250) NOT NULL DEFAULT '' COMMENT 'Cơ quan làm việc hiện tại',
  phone varchar(250) NOT NULL DEFAULT '' COMMENT 'Điện thoại',
  belgiumschool smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT 'Trường đã học tại Bỉ',

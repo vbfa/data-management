@@ -103,4 +103,32 @@ $(document).ready(function() {
         var target = $($(this).data('target'));
         modalShow(target.attr('title'), target.html());
     });
+
+    // Duyệt một hội viên
+    $('[data-toggle="queueAccept"]').on('click', function(e) {
+        e.preventDefault();
+        if (confirm($(this).data("msg"))) {
+            $.post(
+                script_name + '?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=queue&nocache=' + new Date().getTime(),
+                'queueaccept=1&userid=' + $(this).data("userid"),
+                function(res) {
+                    location.reload();
+                }
+            );
+        }
+    });
+
+    // Từ chối một hội viên
+    $('[data-toggle="queueRefuse"]').on('click', function(e) {
+        e.preventDefault();
+        if (confirm($(this).data("msg"))) {
+            $.post(
+                script_name + '?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=queue&nocache=' + new Date().getTime(),
+                'queuerefuse=1&userid=' + $(this).data("userid"),
+                function(res) {
+                    location.reload();
+                }
+            );
+        }
+    });
 });

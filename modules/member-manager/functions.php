@@ -71,3 +71,12 @@ foreach ($groups_list as $gid => $gtitle) {
 }
 
 unset($groups_list);
+
+// Xác định phân quyền
+$global_permissions = [];
+$sql = "SELECT * FROM " . $db_config['prefix'] . "_" . $module_data . "_permissions";
+$list = $nv_Cache->db($sql, 'admin_id', $module_name);
+foreach ($list as $row) {
+    $global_permissions[$row['admin_id']] = empty($row['permission']) ? [] : json_decode($row['permission'], true);
+}
+unset($list, $row);

@@ -17,6 +17,7 @@ $lang_translator['copyright'] = '@Copyright (C) 2018 VINADES.,JSC All rights res
 $lang_translator['info'] = '';
 $lang_translator['langtype'] = 'lang_module';
 
+$lang_module['othervalues'] = 'Khác';
 $lang_module['permissions'] = 'Phân quyền';
 $lang_module['save'] = 'Lưu lại';
 $lang_module['to'] = 'đến';
@@ -127,7 +128,26 @@ $lang_module['report_field_othernote'] = 'Ghi chú';
 $lang_module['report_error_field'] = 'Lỗi: Vui lòng chọn ít nhất một trường dữ liệu để hiển thị hoặc xuất ra excel';
 $lang_module['report_error_group_id'] = 'Lỗi: Vui lòng chọn ít nhất một chi hội để hiển thị hoặc xuất ra excel';
 $lang_module['report_showhide'] = 'Hiển thị/Ẩn các điều kiện';
+$lang_module['report_first_name'] = 'Tên';
+$lang_module['report_last_name'] = 'Họ và tên đệm';
 
 $lang_module['main'] = 'Danh sách hội viên';
 $lang_module['main_have_noginfo'] = 'Các chi hội <strong>%s</strong> chưa được thiết lập mã chi hội, chưa thể nhập hội viên vào đó. Mời nhấp vào đây để thiết lập';
 $lang_module['main_no_group'] = 'Bạn chưa được cấp quyền quản lý các chi hội nào do đó không thể xem danh sách hội viên tại đây!';
+
+$lang_module['queue'] = 'Kiểm duyệt';
+$lang_module['queue_page_title'] = 'Kiểm duyệt thông tin chỉnh sửa của hội viên';
+$lang_module['queue_no_group'] = 'Bạn chưa được cấp quyền quản lý các chi hội nào do đó không thể xem danh sách các hội viên cần kiểm duyệt tại đây!';
+$lang_module['queue_status'] = 'Trạng thái';
+$lang_module['queue_status0'] = 'Chưa xác nhận';
+$lang_module['queue_status1'] = 'Đã xác nhận';
+$lang_module['queue_verificationtime'] = 'Thời gian xác nhận';
+$lang_module['queue_accept'] = 'Duyệt';
+$lang_module['queue_accept_confirm'] = 'Bạn có chắc chắn duyệt thông tin thay đổi của hội viên này không?';
+$lang_module['queue_refuse'] = 'Từ chối';
+$lang_module['queue_refuse_confirm'] = 'Bạn có chắc chắn từ chối thông tin thay đổi của hội viên này không?';
+$lang_module['queue_caption'] = 'Chi tiết thông tin chỉnh sửa của hội viên';
+$lang_module['queue_field'] = 'Trường dữ liệu';
+$lang_module['queue_old_value'] = 'Giá trị cũ';
+$lang_module['queue_new_value'] = 'Giá trị mới';
+$lang_module['queue_change'] = 'Thay đổi';

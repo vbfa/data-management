@@ -11,7 +11,7 @@
 if (!defined('NV_ADMIN'))
     die('Stop!!!');
 
-$allow_func = ['main', 'exportexcel', 'importexcel', 'sendmail', 'sendmail-content', 'sendmail-detail', 'report'];
+$allow_func = ['main', 'exportexcel', 'importexcel', 'sendmail', 'sendmail-content', 'sendmail-detail', 'report', 'queue'];
 
 if (defined('NV_IS_SPADMIN') or defined('NV_IS_GODADMIN')) {
     $submenu['permissions'] = $lang_module['permissions'];
@@ -22,5 +22,6 @@ if (defined('NV_IS_SPADMIN') or defined('NV_IS_GODADMIN')) {
 
 $submenu['exportexcel'] = $lang_module['exportexcel'];
 $submenu['importexcel'] = $lang_module['importexcel'];
+$submenu['queue'] = $lang_module['queue'];
 $submenu['sendmail'] = $lang_module['sendmail'];
 $submenu['report'] = $lang_module['report'];

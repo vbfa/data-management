@@ -1,4 +1,7 @@
 <!-- BEGIN: main -->
+<link type="text/css" href="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+<script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/language/jquery.ui.datepicker-{NV_LANG_INTERFACE}.js"></script>
 
 <h1 class="margin-bottom-lg">{LANG.main_title}</h1>
 <!-- BEGIN: note -->
@@ -18,6 +21,30 @@
                     <div class="col-sm-14 col-md-12">
                         <input type="text" class="form-control" name="email" value="{DATA.email}">
                         <span class="text-muted form-text">{LANG.email_help}</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-10 col-md-7 control-label">{LANG.last_name}</label>
+                    <div class="col-sm-14 col-md-12">
+                        <input type="text" class="form-control" name="last_name" value="{DATA.last_name}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-10 col-md-7 control-label">{LANG.first_name}</label>
+                    <div class="col-sm-14 col-md-12">
+                        <input type="text" class="form-control" name="first_name" value="{DATA.first_name}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-10 col-md-7 control-label">{LANG.birthday}</label>
+                    <div class="col-sm-14 col-md-12 form-inline">
+                        <input type="text" class="form-control mxw150" name="birthday" value="{DATA.birthday}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-10 col-md-7 control-label">{LANG.new_email}</label>
+                    <div class="col-sm-14 col-md-12">
+                        <input type="text" class="form-control" name="new_email" value="{DATA.new_email}">
                     </div>
                 </div>
                 <div class="form-group">
@@ -175,5 +202,19 @@
         </div>
     </div>
 </form>
+
+<script>
+$(document).ready(function() {
+    $("[name='birthday']").datepicker({
+        showOn : "both",
+        dateFormat : "dd/mm/yy",
+        changeMonth : true,
+        changeYear : true,
+        showOtherMonths : true,
+        buttonImage : nv_base_siteurl + "assets/images/calendar.gif",
+        buttonImageOnly : true
+    });
+});
+</script>
 
 <!-- END: main -->

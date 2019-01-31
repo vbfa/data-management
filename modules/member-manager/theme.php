@@ -22,6 +22,12 @@ function nv_theme_member_edit($array, $error, $isSubmit)
     $xtpl->assign('GLANG', $lang_global);
     $xtpl->assign('FORM_ACTION', NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name);
 
+    if ($array['birthday'] < 1) {
+        $array['birthday'] = '';
+    } else {
+        $array['birthday'] = nv_date('d/m/Y', $array['birthday']);
+    }
+
     $xtpl->assign('DATA', $array);
 
     if (!$isSubmit) {
