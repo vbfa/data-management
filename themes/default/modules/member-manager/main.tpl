@@ -185,10 +185,10 @@
                     <div class="col-sm-14 col-md-17 form-inline">
                         <div id="{RECAPTCHA_ELEMENT}"></div>
                         <script type="text/javascript">
-                        //nv_recaptcha_elements.push({
-                        //    id: "{RECAPTCHA_ELEMENT}",
-                        //    btn: $("[name='submit']", $('#{RECAPTCHA_ELEMENT}').parent().parent().parent())
-                        //});
+                        nv_recaptcha_elements.push({
+                            id: "{RECAPTCHA_ELEMENT}",
+                            btn: $("[name='submit']", $('#{RECAPTCHA_ELEMENT}').parent().parent().parent())
+                        });
                         </script>
                     </div>
                 </div>

@@ -63,6 +63,12 @@
 <!-- END: main -->
 
 <!-- BEGIN: detail -->
+<link type="text/css" href="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+<script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/language/jquery.ui.datepicker-{NV_LANG_INTERFACE}.js"></script>
+<!-- BEGIN: error -->
+<div class="alert alert-danger">{ERROR}</div>
+<!-- END: error -->
 <form action="{FORM_ACTION}" method="post">
     <div class="table-responsive">
         <table class="table table-striped table-bordered table-hover">
@@ -102,7 +108,7 @@
                     <td class="text-center">
                         <input type="checkbox" name="change[birthday]" value="1"{CHANGE.birthday}>
                     </td>
-                    <td>
+                    <td class="form-inline">
                         <input type="text" class="form-control input-sm" name="birthday" value="{DATA.birthday}">
                     </td>
                 </tr>
@@ -150,8 +156,174 @@
                         </select>
                     </td>
                 </tr>
+                <tr>
+                    <td>{LANG.report_field_vnschool}</td>
+                    <td>{OLDDATA.vnschool}</td>
+                    <td class="text-center">
+                        <input type="checkbox" name="change[vnschool]" value="1"{CHANGE.vnschool}>
+                    </td>
+                    <td class="form-inline">
+                        <select class="form-control input-sm" name="vnschool">
+                            <!-- BEGIN: vnschool -->
+                            <option value="{VNSCHOOL.id}"{VNSCHOOL.selected}>{VNSCHOOL.title}</option>
+                            <!-- END: vnschool -->
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>{LANG.report_field_course}</td>
+                    <td>{OLDDATA.course}</td>
+                    <td class="text-center">
+                        <input type="checkbox" name="change[course]" value="1"{CHANGE.course}>
+                    </td>
+                    <td>
+                        <input type="text" class="form-control input-sm" name="course" value="{DATA.course}">
+                    </td>
+                </tr>
+                <tr>
+                    <td>{LANG.report_field_studytime}</td>
+                    <td>{OLDDATA.studytime}</td>
+                    <td class="text-center">
+                        <input type="checkbox" name="change[studytime]" value="1"{CHANGE.studytime}>
+                    </td>
+                    <td>
+                        <input type="text" class="form-control input-sm" name="studytime" value="{DATA.studytime}">
+                    </td>
+                </tr>
+                <tr>
+                    <td>{LANG.report_field_learningtasks}</td>
+                    <td>{OLDDATA.learningtasks}</td>
+                    <td class="text-center">
+                        <input type="checkbox" name="change[learningtasks]" value="1"{CHANGE.learningtasks}>
+                    </td>
+                    <td class="form-inline">
+                        <select class="form-control input-sm" name="learningtasks">
+                            <!-- BEGIN: learningtasks -->
+                            <option value="{LEARNINGTASKS.id}"{LEARNINGTASKS.selected}>{LEARNINGTASKS.title}</option>
+                            <!-- END: learningtasks -->
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>{LANG.report_field_othernote}</td>
+                    <td>{OLDDATA.othernote}</td>
+                    <td class="text-center">
+                        <input type="checkbox" name="change[othernote]" value="1"{CHANGE.othernote}>
+                    </td>
+                    <td>
+                        <textarea rows="3" class="form-control" name="othernote">{DATA.othernote}</textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td>{LANG.report_field_edutype}</td>
+                    <td>{OLDDATA.edutype}</td>
+                    <td class="text-center">
+                        <input type="checkbox" name="change[edutype]" value="1"{CHANGE.edutype}>
+                    </td>
+                    <td class="form-inline">
+                        <select class="form-control input-sm" name="edutype">
+                            <!-- BEGIN: edutype -->
+                            <option value="{EDUTYPE.id}"{EDUTYPE.selected}>{EDUTYPE.title}</option>
+                            <!-- END: edutype -->
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>{LANG.report_field_address}</td>
+                    <td>{OLDDATA.address}</td>
+                    <td class="text-center">
+                        <input type="checkbox" name="change[address]" value="1"{CHANGE.address}>
+                    </td>
+                    <td>
+                        <input type="text" class="form-control input-sm" name="address" value="{DATA.address}">
+                    </td>
+                </tr>
+                <tr>
+                    <td>{LANG.report_field_fb_twitter}</td>
+                    <td>{OLDDATA.fb_twitter}</td>
+                    <td class="text-center">
+                        <input type="checkbox" name="change[fb_twitter]" value="1"{CHANGE.fb_twitter}>
+                    </td>
+                    <td>
+                        <input type="text" class="form-control input-sm" name="fb_twitter" value="{DATA.fb_twitter}">
+                    </td>
+                </tr>
+                <tr>
+                    <td>{LANG.report_field_contactsocial}</td>
+                    <td>{OLDDATA.contactsocial}</td>
+                    <td class="text-center">
+                        <input type="checkbox" name="change[contactsocial]" value="1"{CHANGE.contactsocial}>
+                    </td>
+                    <td>
+                        <input type="text" class="form-control input-sm" name="contactsocial" value="{DATA.contactsocial}">
+                    </td>
+                </tr>
+                <tr>
+                    <td>{LANG.report_field_branch}</td>
+                    <td>{OLDDATA.branch}</td>
+                    <td class="text-center">
+                        <input type="checkbox" name="change[branch]" value="1"{CHANGE.branch}>
+                    </td>
+                    <td class="form-inline">
+                        <select class="form-control input-sm" name="branch">
+                            <!-- BEGIN: branch -->
+                            <option value="{BRANCH.id}"{BRANCH.selected}>{BRANCH.title}</option>
+                            <!-- END: branch -->
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>{LANG.report_field_concernarea}</td>
+                    <td>{OLDDATA.concernarea}</td>
+                    <td class="text-center">
+                        <input type="checkbox" name="change[concernarea]" value="1"{CHANGE.concernarea}>
+                    </td>
+                    <td class="form-inline">
+                        <select class="form-control input-sm" name="concernarea">
+                            <!-- BEGIN: concernarea -->
+                            <option value="{CONCERNAREA.id}"{CONCERNAREA.selected}>{CONCERNAREA.title}</option>
+                            <!-- END: concernarea -->
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>{LANG.report_field_contactinfo}</td>
+                    <td>{OLDDATA.contactinfo}</td>
+                    <td class="text-center">
+                        <input type="checkbox" name="change[contactinfo]" value="1"{CHANGE.contactinfo}>
+                    </td>
+                    <td>
+                        {DATA.contactinfo}
+                    </td>
+                </tr>
+                <tr>
+                    <td>{LANG.editreason}</td>
+                    <td colspan="3">{DATA.editreason}</td>
+                </tr>
             </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4" class="text-center">
+                        <button type="submit" name="submit" value="submit" class="btn btn-primary"><i class="fa fa-check"></i> {LANG.queue_accept}</button>
+                        <a class="btn btn-danger" href="#" data-toggle="queueRefuse" data-userid="{DATA.user_id}" data-msg="{LANG.queue_refuse_confirm}"><i class="fa fa-times"></i> {LANG.queue_refuse}</a>
+                    </td>
+                </tr>
+            </tfoot>
         </table>
     </div>
 </form>
+
+<script>
+$(document).ready(function() {
+    $("[name='birthday']").datepicker({
+        showOn : "both",
+        dateFormat : "dd/mm/yy",
+        changeMonth : true,
+        changeYear : true,
+        showOtherMonths : true,
+        buttonImage : nv_base_siteurl + "assets/images/calendar.gif",
+        buttonImageOnly : true
+    });
+});
+</script>
 <!-- END: detail -->

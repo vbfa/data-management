@@ -112,7 +112,11 @@ $(document).ready(function() {
                 script_name + '?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=queue&nocache=' + new Date().getTime(),
                 'queueaccept=1&userid=' + $(this).data("userid"),
                 function(res) {
-                    location.reload();
+                    if (res == 'OK') {
+                        location.reload();
+                        return;
+                    }
+                    alert(res);
                 }
             );
         }

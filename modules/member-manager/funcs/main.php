@@ -175,6 +175,11 @@ if ($nv_Request->isset_request('submit', 'post')) {
         $error = $check;
     }
 
+    // Kiểm tra captcha
+    if (empty($error) and !nv_capcha_txt(($global_config['captcha_type'] == 2 ? $nv_Request->get_title('g-recaptcha-response', 'post', '') : $nv_Request->get_title('code', 'post', '')))) {
+        $error = ($global_config['captcha_type'] == 2 ? $lang_global['securitycodeincorrect1'] : $lang_global['securitycodeincorrect']);
+    }
+
     if (empty($error)) {
         if (!isset($array_belgiumschool[$array['belgiumschool']])) {
             $array['belgiumschool'] = 0;
