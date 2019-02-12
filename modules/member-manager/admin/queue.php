@@ -69,12 +69,45 @@ if (empty($array_group_managers)) {
             if (!empty($user['email'])) {
                 $check = $db->query("SELECT userid FROM " . NV_USERS_GLOBALTABLE . " WHERE email=" . $db->quote($user['email']) . " AND userid!=" . $userid)->fetchColumn();
                 if ($check) {
-                    nv_htmlOutput($lang_module['queue_error_exemail1'], $user['email']);
+                    nv_htmlOutput(sprintf($lang_module['queue_error_exemail1'], $user['email']));
                 }
             }
 
             // Cập nhật thông tin cơ bản
-            // TODO
+            $sql = "UPDATE " . NV_USERS_GLOBALTABLE . " SET
+                first_name=" . $db->quote($user['first_name']) . ",
+                last_name=" . $db->quote($user['last_name']) . ",
+                birthday=" . $user['birthday'] . (!empty($user['email']) ? (', email=' . $db->quote($user['email'])) : '') . "
+            WHERE userid=" . $userid;
+            $db->query($sql);
+
+            // Cập nhật thông tin tùy biến
+            $sql = "UPDATE " . NV_USERS_GLOBALTABLE . "_info SET
+                workplace=" . $db->quote($user['workplace']) . ",
+                phone=" . $db->quote($user['phone']) . ",
+                course=" . $db->quote($user['course']) . ",
+                othernote=" . $db->quote($user['othernote']) . ",
+                address=" . $db->quote($user['address']) . ",
+                fb_twitter=" . $db->quote($user['fb_twitter']) . ",
+                contactsocial=" . $db->quote($user['contactsocial']) . ",
+                branch=" . $db->quote($user['branch']) . ",
+                learningtasks=" . $db->quote($user['learningtasks']) . ",
+                belgiumschool=" . $db->quote($user['belgiumschool']) . ",
+                edutype=" . $db->quote($user['edutype']) . ",
+                studytime_from=" . $user['studytime_from'] . ",
+                studytime_to=" . $user['studytime_to'] . ",
+                vnschool=" . $db->quote($user['vnschool']) . ",
+                concernarea=" . $db->quote($user['concernarea']) . ",
+                contactinfo=" . $db->quote($user['contactinfo']) . "
+            WHERE userid=" . $userid;
+            $db->query($sql);
+
+            // Xóa bảng yêu cầu duyệt
+            $db->query("DELETE FROM " . $db_config['prefix'] . "_" . $module_data . "_queue WHERE user_id=" . $userid);
+
+            // Xóa cache
+            $nv_Cache->delMod($module_name);
+            $nv_Cache->delMod('users');
 
             // Ghi nhật ký
             nv_insert_logs(NV_LANG_DATA, $module_data, 'Accept U Queue', $user['username'], $admin_info['userid']);
