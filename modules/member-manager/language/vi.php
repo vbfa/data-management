@@ -18,16 +18,17 @@ $lang_translator['copyright'] = '@Copyright (C) 2012 VINADES.,JSC. All rights re
 $lang_translator['info'] = '';
 $lang_translator['langtype'] = 'lang_module';
 
+$lang_module['send_email'] = 'Gửi Email';
 $lang_module['back_to_home'] = 'Về trang chủ';
 $lang_module['othervalues'] = 'Khác';
 $lang_module['main_title'] = 'Chỉnh sửa thông tin hội viên';
-$lang_module['main_note'] = 'Mời bạn hoàn thành form bên dưới để gửi đề nghị chỉnh sửa thông tin hội viên';
+$lang_module['main_note'] = 'Mời bạn hoàn thành form bên dưới để gửi đề nghị chỉnh sửa thông tin hội viên. Trường <span class="text-danger">(*)</span> là bắt buộc. Chỉ cần điền thông tin mới cho trường đề nghị sửa. Để nhận nội dung chi tiết các thông tin của bạn đã đăng ký trong CSDL, xin vui lòng điền email bạn đã đăng ký và bấm nút “Gửi Email”';
 $lang_module['email'] = 'Email';
 $lang_module['email_help'] = 'Nhập chính xác email hiện tại của hội viên để xác nhận hội viên chỉnh sửa';
 $lang_module['first_name'] = 'Tên';
 $lang_module['last_name'] = 'Họ và tên đệm';
 $lang_module['birthday'] = 'Ngày tháng năm sinh';
-$lang_module['new_email'] = 'Đổi email mới';
+$lang_module['new_email'] = 'Email';
 $lang_module['workplace'] = 'Cơ quan làm việc hiện tại';
 $lang_module['phone'] = 'Điện thoại';
 $lang_module['belgiumschool'] = 'Trường đã học tại Bỉ';

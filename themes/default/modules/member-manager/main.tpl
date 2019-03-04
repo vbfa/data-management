@@ -19,7 +19,12 @@
                 <div class="form-group">
                     <label class="col-sm-10 col-md-7 control-label">{LANG.email} <span class="text-danger">(*)</span></label>
                     <div class="col-sm-14 col-md-12">
-                        <input type="text" class="form-control" name="email" value="{DATA.email}">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="email" value="{DATA.email}" id="memberEmailVal">
+                            <div class="input-group-btn">
+                                <button class="btn btn-default" type="button" data-toggle="sendEmail"><span class="load hidden"><i class="fa fa-spinner fa-spin"></i> </span>{LANG.send_email}</button>
+                            </div>
+                        </div>
                         <span class="text-muted form-text">{LANG.email_help}</span>
                     </div>
                 </div>
