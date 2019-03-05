@@ -58,6 +58,8 @@ function nv_theme_members_list($array, $generate_page, $array_search)
 
         if (empty($row['contactinfo'])) {
             $xtpl->parse('main.loop.noinfo');
+        } else {
+            $xtpl->parse('main.loop.haveinfo');
         }
 
         $xtpl->parse('main.loop');

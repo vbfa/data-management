@@ -39,6 +39,7 @@ function nv_theme_member_edit($array, $error, $isSubmit)
         $xtpl->parse('main.error');
     }
 
+    /*
     foreach ($array_belgiumschool as $belgiumschool) {
         $belgiumschool['selected'] = $array['belgiumschool'] == $belgiumschool['id'] ? ' selected="selected"' : '';
         if (preg_match('/^[\-]+$/', $belgiumschool['title'])) {
@@ -47,6 +48,7 @@ function nv_theme_member_edit($array, $error, $isSubmit)
         $xtpl->assign('BELGIUMSCHOOL', $belgiumschool);
         $xtpl->parse('main.belgiumschool');
     }
+    */
 
     foreach ($array_vnschool as $vnschool) {
         $vnschool['selected'] = $array['vnschool'] == $vnschool['id'] ? ' selected="selected"' : '';
@@ -57,6 +59,7 @@ function nv_theme_member_edit($array, $error, $isSubmit)
         $xtpl->parse('main.vnschool');
     }
 
+    /*
     foreach ($array_learningtasks as $learningtasks) {
         $learningtasks['selected'] = $array['learningtasks'] == $learningtasks['id'] ? ' selected="selected"' : '';
         if (preg_match('/^[\-]+$/', $learningtasks['title'])) {
@@ -65,16 +68,20 @@ function nv_theme_member_edit($array, $error, $isSubmit)
         $xtpl->assign('LEARNINGTASKS', $learningtasks);
         $xtpl->parse('main.learningtasks');
     }
+    */
 
     foreach ($array_edutype as $edutype) {
         $edutype['selected'] = $array['edutype'] == $edutype['id'] ? ' selected="selected"' : '';
         if (preg_match('/^[\-]+$/', $edutype['title'])) {
-            $edutype['title'] = $lang_module['othervalues'];
+            //$edutype['title'] = $lang_module['othervalues'];
+            // Không hiển thị khác vào đây
+            continue;
         }
         $xtpl->assign('EDUTYPE', $edutype);
         $xtpl->parse('main.edutype');
     }
 
+    /*
     foreach ($array_branch as $branch) {
         $branch['selected'] = $array['branch'] == $branch['id'] ? ' selected="selected"' : '';
         if (preg_match('/^[\-]+$/', $branch['title'])) {
@@ -92,6 +99,7 @@ function nv_theme_member_edit($array, $error, $isSubmit)
         $xtpl->assign('CONCERNAREA', $concernarea);
         $xtpl->parse('main.concernarea');
     }
+    */
 
     if ($global_config['captcha_type'] == 2) {
         $xtpl->assign('N_CAPTCHA', $lang_global['securitycode1']);

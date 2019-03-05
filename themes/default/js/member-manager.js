@@ -15,6 +15,18 @@ $(document).ready(function() {
         }
         loadBtn.removeClass('hidden');
         var email = $('#memberEmailVal').val();
-        // TODO
+        $.ajax({
+            type: 'POST',
+            url: nv_base_siteurl + 'index.php?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=main&nocache=' + new Date().getTime(),
+            data: {
+                'sendemail': 1,
+                'email': email
+            }
+        }).done(function(res) {
+            alert(res);
+            loadBtn.addClass('hidden');
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+            alert("Server error, please try again!!!");
+        });
     });
 });

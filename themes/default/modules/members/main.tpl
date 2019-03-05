@@ -42,7 +42,7 @@
         <!-- BEGIN: loop -->
         <div class="item">
             <div class="name">
-                <h3><strong><a href="#" data-toggle="showmemberinfo" data-target="#memberInfo{ROW.stt}"><i class="fa fa-user-circle-o<!-- BEGIN: noinfo --> text-muted<!-- END: noinfo -->" aria-hidden="true"></i> {ROW.full_name}</a></strong></h3>
+                <h3><strong><a href="#" data-toggle="showmemberinfo" data-target="#memberInfo{ROW.stt}"><i class="fa fa-user-circle-o<!-- BEGIN: noinfo --> text-muted<!-- END: noinfo -->" aria-hidden="true"<!-- BEGIN: haveinfo --> data-toggle="tipmemberinfo" data-title="{LANG.contactinfo}"<!-- END: haveinfo -->></i> {ROW.full_name}</a></strong></h3>
                 <div class="hidden" id="memberInfo{ROW.stt}" title="{LANG.contactinfo}">
                     <div class="clearfix">{ROW.contactinfo}</div>
                 </div>

@@ -7,8 +7,12 @@
  */
 
 $(function() {
+    // Hiển thị thông tin liên hệ của hội viên
     $('[data-toggle="showmemberinfo"]').on('click', function(e) {
         e.preventDefault();
         modalShowByObj($(this).data('target'));
     });
+
+    // Icon thông tin liên hệ của hội viên
+    $('[data-toggle="tipmemberinfo"]').tooltip();
 });

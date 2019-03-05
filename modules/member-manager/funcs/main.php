@@ -15,6 +15,100 @@ if (!defined('NV_IS_MOD_MEMBER_MANAGER')) {
 $page_title = $lang_module['main_title'];
 $key_words = $module_info['keywords'];
 
+// Gửi thông tin hội viên về email
+if ($nv_Request->isset_request('sendemail', 'post')) {
+    if (!defined('NV_IS_AJAX')) {
+        die('Wrong URL!!!');
+    }
+
+    $email = $nv_Request->get_title('email', 'post', '');
+    if (empty($email)) {
+        nv_htmlOutput($lang_module['email_is_required']);
+    } elseif (($check = nv_check_valid_email($email)) != '') {
+        nv_htmlOutput($check);
+    }
+    $email = nv_strtolower($email);
+
+    // Tìm kiếm trông tin hội viên ứng với email
+    $sql = "SELECT tb1.userid, tb1.group_id, tb1.username, tb1.email, tb1.birthday, tb1.first_name, tb1.last_name, tb1.in_groups, tb2.*
+    FROM " . NV_USERS_GLOBALTABLE . " tb1, " . NV_USERS_GLOBALTABLE . "_info tb2 WHERE tb1.email=" . $db->quote($email) . " AND tb1.userid=tb2.userid";
+    $row = $db->query($sql)->fetch();
+
+    if (empty($row)) {
+        nv_htmlOutput(sprintf($lang_module['email_is_not_exists'], $email));
+    }
+
+    $link_update = NV_MY_DOMAIN . nv_url_rewrite(NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name, true);
+    $row['full_name'] = nv_show_name_user($row['first_name'], $row['last_name']);
+
+    $belgiumschool = isset($array_belgiumschool[$row['belgiumschool']]) ? $array_belgiumschool[$row['belgiumschool']]['title'] : '';
+    if (preg_match('/^[\-]+$/', $belgiumschool)) {
+        $belgiumschool = '';
+    }
+    $row['belgiumschool'] = $belgiumschool;
+
+    $studytime = [];
+    if (!empty($row['studytime_from'])) {
+        $studytime[] = $row['studytime_from'];
+    }
+    if (!empty($row['studytime_to'])) {
+        $studytime[] = $row['studytime_to'];
+    }
+    $row['studytime'] = implode(' - ', $studytime);
+
+    $branch = isset($array_branch[$row['branch']]) ? $array_branch[$row['branch']]['title'] : '';
+    if (preg_match('/^[\-]+$/', $branch)) {
+        $branch = '';
+    }
+    $row['branch'] = $branch;
+
+    $learningtasks = isset($array_learningtasks[$row['learningtasks']]) ? $array_learningtasks[$row['learningtasks']]['title'] : '';
+    if (preg_match('/^[\-]+$/', $learningtasks)) {
+        $learningtasks = '';
+    }
+    $row['learningtasks'] = $learningtasks;
+
+    $edutype = isset($array_edutype[$row['edutype']]) ? $array_edutype[$row['edutype']]['title'] : '';
+    if (preg_match('/^[\-]+$/', $edutype)) {
+        $edutype = '';
+    }
+    $row['edutype'] = $edutype;
+
+    $concernarea = isset($array_concernarea[$row['concernarea']]) ? $array_concernarea[$row['concernarea']]['title'] : '';
+    if (preg_match('/^[\-]+$/', $concernarea)) {
+        $concernarea = '';
+    }
+    $row['concernarea'] = $concernarea;
+
+    // Xây dựng email gửi đi
+    $messages = sprintf($lang_module['email_send_ms1'], $row['full_name'], $row['email']) . '<br>';
+    $messages .= $lang_module['email_send_ms2'];
+    $messages .= '<ul>';
+    $messages .= '<li>' . $lang_module['full_name'] . ': <strong>' . $row['full_name'] . '</strong></li>';
+    $messages .= '<li>' . $lang_module['birthday'] . ': <strong>' . ($row['birthday'] ? nv_date('d/m/Y', $row['birthday']) : '') . '</strong></li>';
+    $messages .= '<li>' . $lang_module['email'] . ': <strong>' . $row['email'] . '</strong></li>';
+    $messages .= '<li>' . $lang_module['workplace'] . ': <strong>' . $row['workplace'] . '</strong></li>';
+    $messages .= '<li>' . $lang_module['phone'] . ': <strong>' . $row['phone'] . '</strong></li>';
+    $messages .= '<li>' . $lang_module['belgiumschool'] . ': <strong>' . $row['belgiumschool'] . '</strong></li>';
+    $messages .= '<li>' . $lang_module['studytime'] . ': <strong>' . $row['studytime'] . '</strong></li>';
+    $messages .= '<li>' . $lang_module['branch'] . ': <strong>' . $row['branch'] . '</strong></li>';
+    $messages .= '<li>' . $lang_module['learningtasks'] . ': <strong>' . $row['learningtasks'] . '</strong></li>';
+    $messages .= '<li>' . $lang_module['edutype'] . ': <strong>' . $row['edutype'] . '</strong></li>';
+    $messages .= '<li>' . $lang_module['address'] . ': <strong>' . $row['address'] . '</strong></li>';
+    $messages .= '<li>' . $lang_module['fb_twitter'] . ': <strong>' . $row['fb_twitter'] . '</strong></li>';
+    $messages .= '<li>' . $lang_module['contactsocial'] . ': <strong>' . $row['contactsocial'] . '</strong></li>';
+    $messages .= '<li>' . $lang_module['concernarea'] . ': <strong>' . $row['concernarea'] . '</strong></li>';
+    $messages .= '<li>' . $lang_module['contactinfo'] . ': <div style="display: inline-block;">' . $row['contactinfo'] . '</div></li>';
+    $messages .= '</ul>';
+    $messages .= sprintf($lang_module['email_send_ms3'], $link_update);
+
+    if (!nv_sendmail([$global_config['site_email'], $global_config['site_name']], $email, $lang_module['email_send_ms0'], $messages)) {
+        nv_htmlOutput($lang_module['email_send_error']);
+    }
+
+    nv_htmlOutput(sprintf($lang_module['email_send_success'], $email));
+}
+
 // Xác nhận thông tin chỉnh sửa
 if (isset($array_op[0]) and $array_op[0] == 'active') {
     $userid = $nv_Request->get_int('userid', 'get', 0, 1);
@@ -116,18 +210,18 @@ if ($nv_Request->isset_request('submit', 'post')) {
     $array['new_email'] = nv_substr($nv_Request->get_title('new_email', 'post', ''), 0, 100);
     $array['workplace'] = nv_substr($nv_Request->get_title('workplace', 'post', ''), 0, 250);
     $array['phone'] = nv_substr($nv_Request->get_title('phone', 'post', ''), 0, 250);
-    $array['belgiumschool'] = $nv_Request->get_int('belgiumschool', 'post', 0);
+    $array['belgiumschool'] = nv_substr($nv_Request->get_title('belgiumschool', 'post', ''), 0, 250);
     $array['vnschool'] = $nv_Request->get_int('vnschool', 'post', 0);
     $array['course'] = nv_substr($nv_Request->get_title('course', 'post', ''), 0, 250);
     $array['studytime'] = nv_substr($nv_Request->get_title('studytime', 'post', ''), 0, 250);
-    $array['learningtasks'] = $nv_Request->get_int('learningtasks', 'post', 0);
+    $array['learningtasks'] = nv_substr($nv_Request->get_title('learningtasks', 'post', ''), 0, 250);
     $array['othernote'] = $nv_Request->get_textarea('othernote', '', NV_ALLOWED_HTML_TAGS);
     $array['edutype'] = $nv_Request->get_int('edutype', 'post', 0);
     $array['address'] = nv_substr($nv_Request->get_title('address', 'post', ''), 0, 250);
     $array['fb_twitter'] = nv_substr($nv_Request->get_title('fb_twitter', 'post', ''), 0, 250);
     $array['contactsocial'] = nv_substr($nv_Request->get_title('contactsocial', 'post', ''), 0, 250);
-    $array['branch'] = $nv_Request->get_int('branch', 'post', 0);
-    $array['concernarea'] = $nv_Request->get_int('concernarea', 'post', 0);
+    $array['branch'] = nv_substr($nv_Request->get_title('branch', 'post', ''), 0, 250);
+    $array['concernarea'] = nv_substr($nv_Request->get_title('concernarea', 'post', ''), 0, 250);
     $array['contactinfo'] = $nv_Request->get_editor('contactinfo', '', NV_ALLOWED_HTML_TAGS);
     $array['editreason'] = $nv_Request->get_textarea('editreason', '', NV_ALLOWED_HTML_TAGS);
 
@@ -181,24 +275,24 @@ if ($nv_Request->isset_request('submit', 'post')) {
     }
 
     if (empty($error)) {
-        if (!isset($array_belgiumschool[$array['belgiumschool']])) {
-            $array['belgiumschool'] = 0;
-        }
+        //if (!isset($array_belgiumschool[$array['belgiumschool']])) {
+        //    $array['belgiumschool'] = 0;
+        //}
         if (!isset($array_vnschool[$array['vnschool']])) {
             $array['vnschool'] = 0;
         }
-        if (!isset($array_learningtasks[$array['learningtasks']])) {
-            $array['learningtasks'] = 0;
-        }
+        //if (!isset($array_learningtasks[$array['learningtasks']])) {
+        //    $array['learningtasks'] = 0;
+        //}
         if (!isset($array_edutype[$array['edutype']])) {
             $array['edutype'] = 0;
         }
-        if (!isset($array_branch[$array['branch']])) {
-            $array['branch'] = 0;
-        }
-        if (!isset($array_concernarea[$array['concernarea']])) {
-            $array['concernarea'] = 0;
-        }
+        //if (!isset($array_branch[$array['branch']])) {
+        //    $array['branch'] = 0;
+        //}
+        //if (!isset($array_concernarea[$array['concernarea']])) {
+        //    $array['concernarea'] = 0;
+        //}
 
         // Xóa trong CSDL nếu có
         $sql = "DELETE FROM " . $db_config['prefix'] . "_" . $module_data . "_queue WHERE user_id=" . $user['userid'];
@@ -211,10 +305,10 @@ if ($nv_Request->isset_request('submit', 'post')) {
             learningtasks, othernote, edutype, address, fb_twitter, contactsocial, branch, concernarea, contactinfo,
             editreason, lastupdate, status
         ) VALUES (
-            " . $user['userid'] . ", '" . $checknum . "', :first_name, :last_name, " . $array['birthday'] . ", :email, :workplace, :phone, " . $array['belgiumschool'] . ",
+            " . $user['userid'] . ", '" . $checknum . "', :first_name, :last_name, " . $array['birthday'] . ", :email, :workplace, :phone, :belgiumschool,
             " . $array['vnschool'] . ", :course, " . $array['studytime_from'] . ", " . $array['studytime_to'] . ",
-            " . $array['learningtasks'] . ", :othernote, " . $array['edutype'] . ", :address, :fb_twitter, :contactsocial,
-            " . $array['branch'] . ", " . $array['branch'] . ", :contactinfo, :editreason, " . NV_CURRENTTIME . ", 0
+            :learningtasks, :othernote, " . $array['edutype'] . ", :address, :fb_twitter, :contactsocial,
+            :branch, :concernarea, :contactinfo, :editreason, " . NV_CURRENTTIME . ", 0
         )";
         $sth = $db->prepare($sql);
         $sth->bindParam(':first_name', $array['first_name'], PDO::PARAM_STR);
@@ -222,11 +316,15 @@ if ($nv_Request->isset_request('submit', 'post')) {
         $sth->bindParam(':email', $array['new_email'], PDO::PARAM_STR);
         $sth->bindParam(':workplace', $array['workplace'], PDO::PARAM_STR);
         $sth->bindParam(':phone', $array['phone'], PDO::PARAM_STR);
+        $sth->bindParam(':belgiumschool', $array['belgiumschool'], PDO::PARAM_STR);
         $sth->bindParam(':course', $array['course'], PDO::PARAM_STR);
+        $sth->bindParam(':learningtasks', $array['learningtasks'], PDO::PARAM_STR);
         $sth->bindParam(':othernote', $array['othernote'], PDO::PARAM_STR);
         $sth->bindParam(':address', $array['address'], PDO::PARAM_STR);
         $sth->bindParam(':fb_twitter', $array['fb_twitter'], PDO::PARAM_STR);
         $sth->bindParam(':contactsocial', $array['contactsocial'], PDO::PARAM_STR);
+        $sth->bindParam(':branch', $array['branch'], PDO::PARAM_STR);
+        $sth->bindParam(':concernarea', $array['concernarea'], PDO::PARAM_STR);
         $sth->bindParam(':contactinfo', $array['contactinfo'], PDO::PARAM_STR);
         $sth->bindParam(':editreason', $array['editreason'], PDO::PARAM_STR);
         $sth->execute();
@@ -258,18 +356,18 @@ if ($nv_Request->isset_request('submit', 'post')) {
     $array['new_email'] = '';
     $array['workplace'] = '';
     $array['phone'] = '';
-    $array['belgiumschool'] = 0;
+    $array['belgiumschool'] = '';
     $array['vnschool'] = 0;
     $array['course'] = '';
     $array['studytime'] = '';
-    $array['learningtasks'] = 0;
+    $array['learningtasks'] = '';
     $array['othernote'] = '';
     $array['edutype'] = 0;
     $array['address'] = '';
     $array['fb_twitter'] = '';
     $array['contactsocial'] = '';
-    $array['branch'] = 0;
-    $array['concernarea'] = 0;
+    $array['branch'] = '';
+    $array['concernarea'] = '';
     $array['contactinfo'] = '';
     $array['editreason'] = '';
 }

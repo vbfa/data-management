@@ -66,15 +66,11 @@
                 </div>
                 <div class="form-group">
                     <label class="col-sm-10 col-md-7 control-label">{LANG.belgiumschool}</label>
-                    <div class="col-sm-14 col-md-12 form-inline">
-                        <select class="form-control" name="belgiumschool">
-                            <!-- BEGIN: belgiumschool -->
-                            <option value="{BELGIUMSCHOOL.id}"{BELGIUMSCHOOL.selected}>{BELGIUMSCHOOL.title}</option>
-                            <!-- END: belgiumschool -->
-                        </select>
+                    <div class="col-sm-14 col-md-12">
+                        <input type="text" class="form-control" name="belgiumschool" value="{DATA.belgiumschool}">
                     </div>
                 </div>
-                <div class="form-group">
+                <!--div class="form-group">
                     <label class="col-sm-10 col-md-7 control-label">{LANG.vnschool}</label>
                     <div class="col-sm-14 col-md-12 form-inline">
                         <select class="form-control" name="vnschool">
@@ -89,7 +85,7 @@
                     <div class="col-sm-6 col-md-5">
                         <input type="text" class="form-control" name="course" value="{DATA.course}">
                     </div>
-                </div>
+                </div-->
                 <div class="form-group">
                     <label class="col-sm-10 col-md-7 control-label">{LANG.studytime}</label>
                     <div class="col-sm-14 col-md-12">
@@ -98,21 +94,23 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-10 col-md-7 control-label">{LANG.learningtasks}</label>
-                    <div class="col-sm-14 col-md-12 form-inline">
-                        <select class="form-control" name="learningtasks">
-                            <!-- BEGIN: learningtasks -->
-                            <option value="{LEARNINGTASKS.id}"{LEARNINGTASKS.selected}>{LEARNINGTASKS.title}</option>
-                            <!-- END: learningtasks -->
-                        </select>
+                    <label class="col-sm-10 col-md-7 control-label">{LANG.branch}</label>
+                    <div class="col-sm-14 col-md-12">
+                        <input type="text" class="form-control" name="branch" value="{DATA.branch}">
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="col-sm-10 col-md-7 control-label">{LANG.learningtasks}</label>
+                    <div class="col-sm-14 col-md-12">
+                        <input type="text" class="form-control" name="learningtasks" value="{DATA.learningtasks}">
+                    </div>
+                </div>
+                <!--div class="form-group">
                     <label class="col-sm-10 col-md-7 control-label">{LANG.othernote}</label>
                     <div class="col-sm-14 col-md-12">
                         <textarea class="form-control" name="othernote" rows="3">{DATA.othernote}</textarea>
                     </div>
-                </div>
+                </div-->
                 <div class="form-group">
                     <label class="col-sm-10 col-md-7 control-label">{LANG.edutype}</label>
                     <div class="col-sm-14 col-md-12 form-inline">
@@ -141,24 +139,10 @@
                         <input type="text" class="form-control" name="contactsocial" value="{DATA.contactsocial}">
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="col-sm-10 col-md-7 control-label">{LANG.branch}</label>
-                    <div class="col-sm-14 col-md-12 form-inline">
-                        <select class="form-control" name="branch">
-                            <!-- BEGIN: branch -->
-                            <option value="{BRANCH.id}"{BRANCH.selected}>{BRANCH.title}</option>
-                            <!-- END: branch -->
-                        </select>
-                    </div>
-                </div>
                 <div class="row">
                     <label class="col-sm-10 col-md-7 control-label">{LANG.concernarea}</label>
-                    <div class="col-sm-14 col-md-12 form-inline">
-                        <select class="form-control" name="concernarea">
-                            <!-- BEGIN: concernarea -->
-                            <option value="{CONCERNAREA.id}"{CONCERNAREA.selected}>{CONCERNAREA.title}</option>
-                            <!-- END: concernarea -->
-                        </select>
+                    <div class="col-sm-14 col-md-12">
+                        <input type="text" class="form-control" name="concernarea" value="{DATA.concernarea}">
                     </div>
                 </div>
                 <div class="form-group">
