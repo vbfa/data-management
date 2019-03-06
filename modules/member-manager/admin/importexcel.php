@@ -219,6 +219,11 @@ if ($nv_Request->isset_request('submit', 'post')) {
             $array_data_read[$stt]['email'] = nv_strtolower($array_data_read[$stt]['email']);
             $array_data_read[$stt]['email'] = str_replace(';', ',', $array_data_read[$stt]['email']);
             $array_data_read[$stt]['email'] = array_unique(array_filter(array_map('trim', explode(',', $array_data_read[$stt]['email']))));
+            if (empty($array_data_read[$stt]['email'])) {
+                $array_data_read[$stt]['email'] = '';
+            } else {
+                $array_data_read[$stt]['email'] = $array_data_read[$stt]['email'][0];
+            }
 
             $cell = $sheet->getCellByColumnAndRow(6, $row);
             $array_data_read[$stt]['phone'] = trim($cell->getCalculatedValue());
