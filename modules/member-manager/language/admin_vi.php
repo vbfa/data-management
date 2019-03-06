@@ -160,3 +160,5 @@ $lang_module['queue_error_studytime'] = 'Lỗi: Thời gian học nhập không 
 $lang_module['queue_error_noemail'] = 'Lỗi: Email bắt buộc nhập nếu thay đổi';
 $lang_module['queue_error_exemail'] = 'Lỗi: Email %s đã được sử dụng bởi một hội viên khác, vui lòng nhập email khác';
 $lang_module['queue_error_exemail1'] = 'Email %s đã được sử dụng bởi một hội viên khác, do đó bạn không thể duyệt ngay được thông tin. Vui lòng xem chi tiết để chỉnh sửa lại các thông tin';
+$lang_module['queue_new_value'] = 'Nhập mới';
+$lang_module['queue_self_list'] = 'Hoặc chọn từ danh sách';

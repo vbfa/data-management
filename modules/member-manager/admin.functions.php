@@ -8,12 +8,62 @@
  * @Createdate Wed, 21 Nov 2018 02:52:58 GMT
  */
 
-if (!defined('NV_ADMIN') or !defined('NV_MAINFILE') or !defined('NV_IS_MODADMIN'))
+if (!defined('NV_ADMIN') or !defined('NV_MAINFILE') or !defined('NV_IS_MODADMIN')) {
     die('Stop!!!');
+}
 
 define('NV_IS_FILE_ADMIN', true);
 define('NV_CMNG_TABLE', $db_config['prefix'] . '_category_manager');
 define('NV_CMNG_MODULE', 'category-manager');
+
+/**
+ * @param string $table
+ * @param string $value
+ * @return number
+ */
+function newCategoryManagerItems($table, $value)
+{
+    global $db, $nv_Cache, $admin_info, $module_name;
+
+    $array_tables = [
+        'belgiumschool' => 'belgiumschool',
+        'learningtasks' => 'learning_tasks',
+        'branch' => 'branch',
+        'concernarea' => 'concernarea'
+    ];
+
+    if (!isset($array_tables[$table]) or empty($value)) {
+        return 0;
+    }
+
+    // Tìm trong CSDL với $value trả về ID
+    $sql = "SELECT id FROM " . NV_CMNG_TABLE . "_" . $array_tables[$table] . " WHERE title=" . $db->quote($value);
+    $exists_id = $db->query($sql)->fetchColumn();
+    if (!empty($exists_id)) {
+        return $exists_id;
+    }
+
+    // Thêm mới và trả về ID
+    try {
+        $weight = $db->query('SELECT max(weight) FROM ' . NV_CMNG_TABLE . '_' . $array_tables[$table])->fetchColumn();
+        $weight = intval($weight) + 1;
+
+        $sql = "INSERT INTO " . NV_CMNG_TABLE . "_" . $array_tables[$table] . " (title, description, weight) VALUES (
+            " . $db->quote($value) . ", '', " . $weight . "
+        )";
+
+        $new_id = $db->insert_id($sql, 'id');
+
+        if ($new_id) {
+            $nv_Cache->delMod(NV_CMNG_MODULE);
+            nv_insert_logs(NV_LANG_DATA, $module_name, 'Quick add ' . $table, $value, $admin_info['userid']);
+        }
+
+        return intval($new_id);
+    } catch (PDOException $e) {
+        return 0;
+    }
+}
 
 // Xác định phân quyền
 $global_permissions = [];

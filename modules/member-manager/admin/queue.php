@@ -44,7 +44,7 @@ foreach ($groups_list as $gid => $gtitle) {
 if (empty($array_group_managers)) {
     $xtpl->parse('main.nogroup');
 } else {
-    // Duyệt
+    // Duyệt nhanh
     if ($nv_Request->isset_request('queueaccept', 'post')) {
         if (!defined('NV_IS_AJAX')) {
             nv_htmlOutput('Wrong URL');
@@ -74,33 +74,78 @@ if (empty($array_group_managers)) {
             }
 
             // Cập nhật thông tin cơ bản
-            $sql = "UPDATE " . NV_USERS_GLOBALTABLE . " SET
-                first_name=" . $db->quote($user['first_name']) . ",
-                last_name=" . $db->quote($user['last_name']) . ",
-                birthday=" . $user['birthday'] . (!empty($user['email']) ? (', email=' . $db->quote($user['email'])) : '') . "
-            WHERE userid=" . $userid;
-            $db->query($sql);
+            $sql = [];
+            if (!empty($user['first_name'])) {
+                $sql['first_name'] = $db->quote($user['first_name']);
+            }
+            if (!empty($user['last_name'])) {
+                $sql['last_name'] = $db->quote($user['last_name']);
+            }
+            if (!empty($user['birthday'])) {
+                $sql['birthday'] = $user['birthday'];
+            }
+            if (!empty($user['email'])) {
+                $sql['email'] = $db->quote($user['email']);
+            }
+            if (!empty($sql)) {
+                $ressql = [];
+                foreach ($sql as $__k => $__v) {
+                    $ressql[] = $__k . '=' . $__v;
+                }
+                $ressql = "UPDATE " . NV_USERS_GLOBALTABLE . " SET " . implode(', ', $ressql) . " WHERE userid=" . $userid;
+                $db->query($ressql);
+            }
 
-            // Cập nhật thông tin tùy biến
-            $sql = "UPDATE " . NV_USERS_GLOBALTABLE . "_info SET
-                workplace=" . $db->quote($user['workplace']) . ",
-                phone=" . $db->quote($user['phone']) . ",
-                course=" . $db->quote($user['course']) . ",
-                othernote=" . $db->quote($user['othernote']) . ",
-                address=" . $db->quote($user['address']) . ",
-                fb_twitter=" . $db->quote($user['fb_twitter']) . ",
-                contactsocial=" . $db->quote($user['contactsocial']) . ",
-                branch=" . $db->quote($user['branch']) . ",
-                learningtasks=" . $db->quote($user['learningtasks']) . ",
-                belgiumschool=" . $db->quote($user['belgiumschool']) . ",
-                edutype=" . $db->quote($user['edutype']) . ",
-                studytime_from=" . $user['studytime_from'] . ",
-                studytime_to=" . $user['studytime_to'] . ",
-                vnschool=" . $db->quote($user['vnschool']) . ",
-                concernarea=" . $db->quote($user['concernarea']) . ",
-                contactinfo=" . $db->quote($user['contactinfo']) . "
-            WHERE userid=" . $userid;
-            $db->query($sql);
+            // Xác định các thông tin mới từ CSDL hoặc thêm mới vào CSDL
+            $sql = [];
+            if (!empty($user['workplace'])) {
+                $sql['workplace'] = $db->quote($user['workplace']);
+            }
+            if (!empty($user['phone'])) {
+                $sql['phone'] = $db->quote($user['phone']);
+            }
+            if (!empty($user['address'])) {
+                $sql['address'] = $db->quote($user['address']);
+            }
+            if (!empty($user['fb_twitter'])) {
+                $sql['fb_twitter'] = $db->quote($user['fb_twitter']);
+            }
+            if (!empty($user['contactsocial'])) {
+                $sql['contactsocial'] = $db->quote($user['contactsocial']);
+            }
+            if (!empty($user['edutype'])) {
+                $sql['edutype'] = $db->quote($user['edutype']);
+            }
+            if (!empty($user['contactinfo'])) {
+                $sql['contactinfo'] = $db->quote($user['contactinfo']);
+            }
+            if (!empty($user['studytime_from'])) {
+                $sql['studytime_from'] = $user['studytime_from'];
+            }
+            if (!empty($user['studytime_to'])) {
+                $sql['studytime_to'] = $user['studytime_to'];
+            }
+            if (!empty($user['belgiumschool'])) {
+                $sql['belgiumschool'] = $db->quote(newCategoryManagerItems('belgiumschool', $user['belgiumschool']));
+            }
+            if (!empty($user['learningtasks'])) {
+                $sql['learningtasks'] = $db->quote(newCategoryManagerItems('learningtasks', $user['learningtasks']));
+            }
+            if (!empty($user['branch'])) {
+                $sql['branch'] = $db->quote(newCategoryManagerItems('branch', $user['branch']));
+            }
+            if (!empty($user['concernarea'])) {
+                $sql['concernarea'] = $db->quote(newCategoryManagerItems('concernarea', $user['concernarea']));
+            }
+
+            if (!empty($sql)) {
+                $ressql = [];
+                foreach ($sql as $__k => $__v) {
+                    $ressql[] = $__k . '=' . $__v;
+                }
+                $ressql = "UPDATE " . NV_USERS_GLOBALTABLE . "_info SET " . implode(', ', $ressql) . " WHERE userid=" . $userid;
+                $db->query($ressql);
+            }
 
             // Xóa bảng yêu cầu duyệt
             $db->query("DELETE FROM " . $db_config['prefix'] . "_" . $module_data . "_queue WHERE user_id=" . $userid);
@@ -110,7 +155,7 @@ if (empty($array_group_managers)) {
             $nv_Cache->delMod('users');
 
             // Ghi nhật ký
-            nv_insert_logs(NV_LANG_DATA, $module_data, 'Accept U Queue', $user['username'], $admin_info['userid']);
+            nv_insert_logs(NV_LANG_DATA, $module_name, 'Accept U Queue', $user['username'], $admin_info['userid']);
         }
 
         nv_htmlOutput('OK');
@@ -140,7 +185,7 @@ if (empty($array_group_managers)) {
             $db->query("DELETE FROM " . $db_config['prefix'] . "_" . $module_data . "_queue WHERE user_id=" . $userid);
 
             // Ghi nhật ký
-            nv_insert_logs(NV_LANG_DATA, $module_data, 'Delete U Queue', $user['username'], $admin_info['userid']);
+            nv_insert_logs(NV_LANG_DATA, $module_name, 'Delete U Queue', $user['username'], $admin_info['userid']);
         }
 
         nv_htmlOutput('OK');
@@ -186,19 +231,45 @@ if (empty($array_group_managers)) {
             $user['birthday'] = $nv_Request->get_string('birthday', 'post', '');
             $user['workplace'] = nv_substr($nv_Request->get_title('workplace', 'post', ''), 0, 250);
             $user['phone'] = nv_substr($nv_Request->get_title('phone', 'post', ''), 0, 250);
-            $user['belgiumschool'] = $nv_Request->get_int('belgiumschool', 'post', 0);
+            $user['belgiumschool'] = nv_substr($nv_Request->get_title('belgiumschool', 'post', ''), 0, 250);
             $user['vnschool'] = $nv_Request->get_int('vnschool', 'post', 0);
             $user['course'] = nv_substr($nv_Request->get_title('course', 'post', ''), 0, 250);
             $user['studytime'] = nv_substr($nv_Request->get_title('studytime', 'post', ''), 0, 250);
-            $user['learningtasks'] = $nv_Request->get_int('learningtasks', 'post', 0);
+            $user['learningtasks'] = nv_substr($nv_Request->get_title('learningtasks', 'post', ''), 0, 250);
             $user['othernote'] = $nv_Request->get_textarea('othernote', '', NV_ALLOWED_HTML_TAGS);
             $user['edutype'] = $nv_Request->get_int('edutype', 'post', 0);
             $user['address'] = nv_substr($nv_Request->get_title('address', 'post', ''), 0, 250);
             $user['fb_twitter'] = nv_substr($nv_Request->get_title('fb_twitter', 'post', ''), 0, 250);
             $user['contactsocial'] = nv_substr($nv_Request->get_title('contactsocial', 'post', ''), 0, 250);
-            $user['branch'] = $nv_Request->get_int('branch', 'post', 0);
-            $user['concernarea'] = $nv_Request->get_int('concernarea', 'post', 0);
+            $user['branch'] = nv_substr($nv_Request->get_title('branch', 'post', ''), 0, 250);
+            $user['concernarea'] = nv_substr($nv_Request->get_title('concernarea', 'post', ''), 0, 250);
             $user['contactinfo'] = $nv_Request->get_editor('contactinfo', '', NV_ALLOWED_HTML_TAGS);
+
+            // Chọn các select
+            $user['sel_belgiumschool'] = $nv_Request->get_int('sel_belgiumschool', 'post', 0);
+            $user['sel_learningtasks'] = $nv_Request->get_int('sel_learningtasks', 'post', 0);
+            $user['sel_branch'] = $nv_Request->get_int('sel_branch', 'post', 0);
+            $user['sel_concernarea'] = $nv_Request->get_int('sel_concernarea', 'post', 0);
+
+            // Chuẩn hóa các select
+            if (!isset($array_belgiumschool[$user['sel_belgiumschool']])) {
+                $user['sel_belgiumschool'] = 0;
+            }
+            if (!isset($array_learningtasks[$user['sel_learningtasks']])) {
+                $user['sel_learningtasks'] = 0;
+            }
+            if (!isset($array_branch[$user['sel_branch']])) {
+                $user['sel_branch'] = 0;
+            }
+            if (!isset($array_concernarea[$user['sel_concernarea']])) {
+                $user['sel_concernarea'] = 0;
+            }
+            if (!isset($array_edutype[$user['edutype']])) {
+                $user['edutype'] = 0;
+            }
+            if (!isset($array_vnschool[$user['vnschool']])) {
+                $user['vnschool'] = 0;
+            }
 
             $user['studytime_from'] = 0;
             $user['studytime_to'] = 0;
@@ -287,13 +358,25 @@ if (empty($array_group_managers)) {
                     $sql['contactsocial'] = $db->quote($user['contactsocial']);
                 }
                 if (!empty($array_change['branch'])) {
-                    $sql['branch'] = $db->quote($user['branch']);
+                    if ($user['sel_branch']) {
+                        $sql['branch'] = $db->quote($user['sel_branch']);
+                    } else {
+                        $sql['branch'] = $db->quote(newCategoryManagerItems('branch', $user['branch']));
+                    }
                 }
                 if (!empty($array_change['learningtasks'])) {
-                    $sql['learningtasks'] = $db->quote($user['learningtasks']);
+                    if ($user['sel_learningtasks']) {
+                        $sql['learningtasks'] = $db->quote($user['sel_learningtasks']);
+                    } else {
+                        $sql['learningtasks'] = $db->quote(newCategoryManagerItems('learningtasks', $user['learningtasks']));
+                    }
                 }
                 if (!empty($array_change['belgiumschool'])) {
-                    $sql['belgiumschool'] = $db->quote($user['belgiumschool']);
+                    if ($user['sel_belgiumschool']) {
+                        $sql['belgiumschool'] = $db->quote($user['sel_belgiumschool']);
+                    } else {
+                        $sql['belgiumschool'] = $db->quote(newCategoryManagerItems('belgiumschool', $user['belgiumschool']));
+                    }
                 }
                 if (!empty($array_change['edutype'])) {
                     $sql['edutype'] = $db->quote($user['edutype']);
@@ -306,7 +389,11 @@ if (empty($array_group_managers)) {
                     $sql['vnschool'] = $db->quote($user['vnschool']);
                 }
                 if (!empty($array_change['concernarea'])) {
-                    $sql['concernarea'] = $db->quote($user['concernarea']);
+                    if ($user['sel_concernarea']) {
+                        $sql['concernarea'] = $db->quote($user['sel_concernarea']);
+                    } else {
+                        $sql['concernarea'] = $db->quote(newCategoryManagerItems('concernarea', $user['concernarea']));
+                    }
                 }
                 if (!empty($array_change['contactinfo'])) {
                     $sql['contactinfo'] = $db->quote(nv_editor_nl2br($user['contactinfo']));
@@ -324,7 +411,7 @@ if (empty($array_group_managers)) {
                 $db->query("DELETE FROM " . $db_config['prefix'] . "_" . $module_data . "_queue WHERE user_id=" . $userid);
 
                 // Ghi nhật ký
-                nv_insert_logs(NV_LANG_DATA, $module_data, 'Accept U Queue Detail', $user['username'], $admin_info['userid']);
+                nv_insert_logs(NV_LANG_DATA, $module_name, 'Accept U Queue Detail', $user['username'], $admin_info['userid']);
 
                 // Xóa cache
                 $nv_Cache->delMod($module_name);
@@ -350,23 +437,30 @@ if (empty($array_group_managers)) {
             $array_change['email'] = empty($user['email']) ? 0 : 1;
             $array_change['workplace'] = empty($user['workplace']) ? 0 : 1;
             $array_change['phone'] = empty($user['phone']) ? 0 : 1;
-            $array_change['belgiumschool'] = $user['belgiumschool'] == $old_info['belgiumschool'] ? 0 : 1;
+            $array_change['belgiumschool'] = empty($user['belgiumschool']) ? 0 : 1;
             $array_change['vnschool'] = $user['vnschool'] == $old_info['vnschool'] ? 0 : 1;
             $array_change['course'] = empty($user['course']) ? 0 : 1;
             $array_change['studytime'] = empty($user['studytime']) ? 0 : 1;
-            $array_change['learningtasks'] = $user['learningtasks'] == $old_info['learningtasks'] ? 0 : 1;
+            $array_change['learningtasks'] = empty($user['learningtasks']) ? 0 : 1;
             $array_change['othernote'] = empty($user['othernote']) ? 0 : 1;
             $array_change['edutype'] = $user['edutype'] == $old_info['edutype'] ? 0 : 1;
             $array_change['address'] = empty($user['address']) ? 0 : 1;
             $array_change['fb_twitter'] = empty($user['fb_twitter']) ? 0 : 1;
             $array_change['contactsocial'] = empty($user['contactsocial']) ? 0 : 1;
-            $array_change['branch'] = $user['branch'] == $old_info['branch'] ? 0 : 1;
-            $array_change['concernarea'] = $user['concernarea'] == $old_info['concernarea'] ? 0 : 1;
+            $array_change['branch'] = empty($user['branch']) ? 0 : 1;
+            $array_change['concernarea'] = empty($user['concernarea']) ? 0 : 1;
             $array_change['contactinfo'] = empty($user['contactinfo']) ? 0 : 1;
+
+            // Chọn các dữ liệu select
+            $user['sel_belgiumschool'] = 0;
+            $user['sel_learningtasks'] = 0;
+            $user['sel_branch'] = 0;
+            $user['sel_concernarea'] = 0;
         }
 
         $user['full_name'] = nv_show_name_user($user['old_first_name'], $user['old_last_name'], $user['username']);
 
+        // Build thành text các trường dữ liệu hiện tại
         $old_info['first_name'] = $user['old_first_name'];
         $old_info['last_name'] = $user['old_last_name'];
         $old_info['birthday'] = $user['old_birthday'];
@@ -411,6 +505,7 @@ if (empty($array_group_managers)) {
         }
         $old_info['studytime'] = implode(' - ', $old_info['studytime']);
 
+        // Xử lý dữ liệu mới hợp chuẩn để xuất ra trình duyệt
         $user['birthday'] = $user['birthday'] ? nv_date('d/m/Y', $user['birthday']) : '';
         $user['editreason'] = nv_htmlspecialchars($user['editreason']);
         $user['othernote'] = nv_htmlspecialchars($user['othernote']);
@@ -442,9 +537,10 @@ if (empty($array_group_managers)) {
         $xtpl->assign('FORM_ACTION', NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op . '&amp;userid=' . $userid);
 
         foreach ($array_belgiumschool as $belgiumschool) {
-            $belgiumschool['selected'] = $user['belgiumschool'] == $belgiumschool['id'] ? ' selected="selected"' : '';
+            $belgiumschool['selected'] = $user['sel_belgiumschool'] == $belgiumschool['id'] ? ' selected="selected"' : '';
             if (preg_match('/^[\-]+$/', $belgiumschool['title'])) {
-                $belgiumschool['title'] = $lang_module['othervalues'];
+                continue;
+                //$belgiumschool['title'] = $lang_module['othervalues'];
             }
             $xtpl->assign('BELGIUMSCHOOL', $belgiumschool);
             $xtpl->parse('detail.belgiumschool');
@@ -460,9 +556,10 @@ if (empty($array_group_managers)) {
         }
 
         foreach ($array_learningtasks as $learningtasks) {
-            $learningtasks['selected'] = $user['learningtasks'] == $learningtasks['id'] ? ' selected="selected"' : '';
+            $learningtasks['selected'] = $user['sel_learningtasks'] == $learningtasks['id'] ? ' selected="selected"' : '';
             if (preg_match('/^[\-]+$/', $learningtasks['title'])) {
-                $learningtasks['title'] = $lang_module['othervalues'];
+                continue;
+                //$learningtasks['title'] = $lang_module['othervalues'];
             }
             $xtpl->assign('LEARNINGTASKS', $learningtasks);
             $xtpl->parse('detail.learningtasks');
@@ -478,18 +575,20 @@ if (empty($array_group_managers)) {
         }
 
         foreach ($array_branch as $branch) {
-            $branch['selected'] = $user['branch'] == $branch['id'] ? ' selected="selected"' : '';
+            $branch['selected'] = $user['sel_branch'] == $branch['id'] ? ' selected="selected"' : '';
             if (preg_match('/^[\-]+$/', $branch['title'])) {
-                $branch['title'] = $lang_module['othervalues'];
+                continue;
+                //$branch['title'] = $lang_module['othervalues'];
             }
             $xtpl->assign('BRANCH', $branch);
             $xtpl->parse('detail.branch');
         }
 
         foreach ($array_concernarea as $concernarea) {
-            $concernarea['selected'] = $user['concernarea'] == $concernarea['id'] ? ' selected="selected"' : '';
+            $concernarea['selected'] = $user['sel_concernarea'] == $concernarea['id'] ? ' selected="selected"' : '';
             if (preg_match('/^[\-]+$/', $concernarea['title'])) {
-                $concernarea['title'] = $lang_module['othervalues'];
+                continue;
+                //$concernarea['title'] = $lang_module['othervalues'];
             }
             $xtpl->assign('CONCERNAREA', $concernarea);
             $xtpl->parse('detail.concernarea');

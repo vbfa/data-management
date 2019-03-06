@@ -148,15 +148,25 @@
                     <td class="text-center">
                         <input type="checkbox" name="change[belgiumschool]" value="1"{CHANGE.belgiumschool}>
                     </td>
-                    <td class="form-inline">
-                        <select class="form-control input-sm" name="belgiumschool">
-                            <!-- BEGIN: belgiumschool -->
-                            <option value="{BELGIUMSCHOOL.id}"{BELGIUMSCHOOL.selected}>{BELGIUMSCHOOL.title}</option>
-                            <!-- END: belgiumschool -->
-                        </select>
+                    <td>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon">{LANG.queue_new_value}</div>
+                                <input type="text" class="form-control input-sm" name="belgiumschool" value="{DATA.belgiumschool}">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-addon">{LANG.queue_self_list}</div>
+                            <select class="form-control input-sm" name="sel_belgiumschool">
+                                <option value="0">--</option>
+                                <!-- BEGIN: belgiumschool -->
+                                <option value="{BELGIUMSCHOOL.id}"{BELGIUMSCHOOL.selected}>{BELGIUMSCHOOL.title}</option>
+                                <!-- END: belgiumschool -->
+                            </select>
+                        </div>
                     </td>
                 </tr>
-                <tr>
+                <!--tr>
                     <td>{LANG.report_field_vnschool}</td>
                     <td>{OLDDATA.vnschool}</td>
                     <td class="text-center">
@@ -169,8 +179,8 @@
                             <!-- END: vnschool -->
                         </select>
                     </td>
-                </tr>
-                <tr>
+                </tr-->
+                <!--tr>
                     <td>{LANG.report_field_course}</td>
                     <td>{OLDDATA.course}</td>
                     <td class="text-center">
@@ -179,7 +189,7 @@
                     <td>
                         <input type="text" class="form-control input-sm" name="course" value="{DATA.course}">
                     </td>
-                </tr>
+                </tr-->
                 <tr>
                     <td>{LANG.report_field_studytime}</td>
                     <td>{OLDDATA.studytime}</td>
@@ -191,20 +201,54 @@
                     </td>
                 </tr>
                 <tr>
+                    <td>{LANG.report_field_branch}</td>
+                    <td>{OLDDATA.branch}</td>
+                    <td class="text-center">
+                        <input type="checkbox" name="change[branch]" value="1"{CHANGE.branch}>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon">{LANG.queue_new_value}</div>
+                                <input type="text" class="form-control input-sm" name="branch" value="{DATA.branch}">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-addon">{LANG.queue_self_list}</div>
+                            <select class="form-control input-sm" name="sel_branch">
+                                <option value="0">--</option>
+                                <!-- BEGIN: branch -->
+                                <option value="{BRANCH.id}"{BRANCH.selected}>{BRANCH.title}</option>
+                                <!-- END: branch -->
+                            </select>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
                     <td>{LANG.report_field_learningtasks}</td>
                     <td>{OLDDATA.learningtasks}</td>
                     <td class="text-center">
                         <input type="checkbox" name="change[learningtasks]" value="1"{CHANGE.learningtasks}>
                     </td>
-                    <td class="form-inline">
-                        <select class="form-control input-sm" name="learningtasks">
-                            <!-- BEGIN: learningtasks -->
-                            <option value="{LEARNINGTASKS.id}"{LEARNINGTASKS.selected}>{LEARNINGTASKS.title}</option>
-                            <!-- END: learningtasks -->
-                        </select>
+                    <td>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon">{LANG.queue_new_value}</div>
+                                <input type="text" class="form-control input-sm" name="learningtasks" value="{DATA.learningtasks}">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-addon">{LANG.queue_self_list}</div>
+                            <select class="form-control input-sm" name="sel_learningtasks">
+                                <option value="0">--</option>
+                                <!-- BEGIN: learningtasks -->
+                                <option value="{LEARNINGTASKS.id}"{LEARNINGTASKS.selected}>{LEARNINGTASKS.title}</option>
+                                <!-- END: learningtasks -->
+                            </select>
+                        </div>
                     </td>
                 </tr>
-                <tr>
+                <!--tr>
                     <td>{LANG.report_field_othernote}</td>
                     <td>{OLDDATA.othernote}</td>
                     <td class="text-center">
@@ -213,7 +257,7 @@
                     <td>
                         <textarea rows="3" class="form-control" name="othernote">{DATA.othernote}</textarea>
                     </td>
-                </tr>
+                </tr-->
                 <tr>
                     <td>{LANG.report_field_edutype}</td>
                     <td>{OLDDATA.edutype}</td>
@@ -259,31 +303,27 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>{LANG.report_field_branch}</td>
-                    <td>{OLDDATA.branch}</td>
-                    <td class="text-center">
-                        <input type="checkbox" name="change[branch]" value="1"{CHANGE.branch}>
-                    </td>
-                    <td class="form-inline">
-                        <select class="form-control input-sm" name="branch">
-                            <!-- BEGIN: branch -->
-                            <option value="{BRANCH.id}"{BRANCH.selected}>{BRANCH.title}</option>
-                            <!-- END: branch -->
-                        </select>
-                    </td>
-                </tr>
-                <tr>
                     <td>{LANG.report_field_concernarea}</td>
                     <td>{OLDDATA.concernarea}</td>
                     <td class="text-center">
                         <input type="checkbox" name="change[concernarea]" value="1"{CHANGE.concernarea}>
                     </td>
-                    <td class="form-inline">
-                        <select class="form-control input-sm" name="concernarea">
-                            <!-- BEGIN: concernarea -->
-                            <option value="{CONCERNAREA.id}"{CONCERNAREA.selected}>{CONCERNAREA.title}</option>
-                            <!-- END: concernarea -->
-                        </select>
+                    <td>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon">{LANG.queue_new_value}</div>
+                                <input type="text" class="form-control input-sm" name="concernarea" value="{DATA.concernarea}">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-addon">{LANG.queue_self_list}</div>
+                            <select class="form-control input-sm" name="sel_concernarea">
+                                <option value="0">--</option>
+                                <!-- BEGIN: concernarea -->
+                                <option value="{CONCERNAREA.id}"{CONCERNAREA.selected}>{CONCERNAREA.title}</option>
+                                <!-- END: concernarea -->
+                            </select>
+                        </div>
                     </td>
                 </tr>
                 <tr>
@@ -324,6 +364,39 @@ $(document).ready(function() {
         buttonImage : nv_base_siteurl + "assets/images/calendar.gif",
         buttonImageOnly : true
     });
+    $('[name="sel_belgiumschool"]').on('change', function() {
+        if ($(this).val() != '0') {
+            $('[name="belgiumschool"]').attr('readonly', 'readonly');
+        } else {
+            $('[name="belgiumschool"]').removeAttr('readonly');
+        }
+    });
+    $('[name="sel_learningtasks"]').on('change', function() {
+        if ($(this).val() != '0') {
+            $('[name="learningtasks"]').attr('readonly', 'readonly');
+        } else {
+            $('[name="learningtasks"]').removeAttr('readonly');
+        }
+    });
+    $('[name="sel_branch"]').on('change', function() {
+        if ($(this).val() != '0') {
+            $('[name="branch"]').attr('readonly', 'readonly');
+        } else {
+            $('[name="branch"]').removeAttr('readonly');
+        }
+    });
+    $('[name="sel_concernarea"]').on('change', function() {
+        if ($(this).val() != '0') {
+            $('[name="concernarea"]').attr('readonly', 'readonly');
+        } else {
+            $('[name="concernarea"]').removeAttr('readonly');
+        }
+    });
+
+    $('[name="sel_belgiumschool"]').trigger('change');
+    $('[name="sel_learningtasks"]').trigger('change');
+    $('[name="sel_branch"]').trigger('change');
+    $('[name="sel_concernarea"]').trigger('change');
 });
 </script>
 <!-- END: detail -->

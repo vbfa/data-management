@@ -212,8 +212,14 @@ if ($nv_Request->isset_request('submit', 'post')) {
             // Nơi làm việc hiện tại
             $cell = $sheet->getCellByColumnAndRow(4, $row);
             $array_data_read[$stt]['workplace'] = trim($cell->getCalculatedValue());
+
+            // Đọc và xử lý hợp chuẩn email
             $cell = $sheet->getCellByColumnAndRow(5, $row);
             $array_data_read[$stt]['email'] = trim($cell->getCalculatedValue());
+            $array_data_read[$stt]['email'] = nv_strtolower($array_data_read[$stt]['email']);
+            $array_data_read[$stt]['email'] = str_replace(';', ',', $array_data_read[$stt]['email']);
+            $array_data_read[$stt]['email'] = array_unique(array_filter(array_map('trim', explode(',', $array_data_read[$stt]['email']))));
+
             $cell = $sheet->getCellByColumnAndRow(6, $row);
             $array_data_read[$stt]['phone'] = trim($cell->getCalculatedValue());
             // Trường đã học tại Bỉ
